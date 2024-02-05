@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import ScreenContainer from "../../../components/screenContainer";
 
 const LoginScreen = () => {
   return (
-    <View>
+    <ScreenContainer>
       <Text>LoginScreen</Text>
-    </View>
+    </ScreenContainer>
   );
 };
 

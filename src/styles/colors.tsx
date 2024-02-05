@@ -5,7 +5,7 @@ export interface ColorPalette {
 
 const colors: ColorPalette = {
   white: "#FFFFFF",
-  blue: " #023AE9",
+  blue: "#023AE9",
 };
 
 export default colors;
