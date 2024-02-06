@@ -29,7 +29,7 @@ const LoginScreen = () => {
         style={[commonStyles.flex1, commonStyles.justifyCenter]}
         resizeMode="cover"
       >
-        <View style={styles.container}>
+        <View style={[commonStyles.flex1, commonStyles.p20, commonStyles.w100]}>
           <Image
             source={require("../../../../assets/logo.png")}
             style={styles.logo}
@@ -50,7 +50,11 @@ const LoginScreen = () => {
           </View>
           <CustomButton
             text="Login"
-            onPress={() => console.log("first")}
+            onPress={() =>
+              navigation.navigate(ROUTE_NAMES.STACK.MAIN, {
+                screen: ROUTE_NAMES.MAIN_STACK.HOME,
+              })
+            }
             isPrimary={true}
           />
           <CustomButton

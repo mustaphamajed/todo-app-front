@@ -1,11 +1,14 @@
 export const ROUTE_NAMES = {
   STACK: {
-    MAIN: "Main",
-    AUTH: "Auth",
+    MAIN: "main",
+    AUTH: "auth",
   },
   AUTH_STACK: {
     LOGIN: "login",
     REGISTER: "register",
+  },
+  MAIN_STACK: {
+    HOME: "home",
   },
 } as const;
 
