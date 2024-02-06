@@ -1,5 +1,8 @@
 import { UserState } from "../../interfaces/user-interface";
 import {
+  LOGIN_FAILURE,
+  LOGIN_LOADING,
+  LOGIN_SUCCESS,
   REGISTER_FAILURE,
   REGISTER_LOADING,
   REGISTER_SUCCESS,
@@ -8,6 +11,7 @@ import {
 
 const initialState = {
   loadingRegister: false,
+  loadingLogin: false,
   user: null,
   error: null,
 };
@@ -25,7 +29,15 @@ export const userReducer = (
       return {
         ...state,
         loadingRegister: false,
-        error: { error: action.payload.error, message: action.payload.message },
+      };
+    case LOGIN_LOADING:
+      return { ...state, loadingLogin: true };
+    case LOGIN_SUCCESS:
+      return { ...state, loadingLogin: false };
+    case LOGIN_FAILURE:
+      return {
+        ...state,
+        loadingLogin: false,
       };
     default:
       return state;

@@ -1,5 +1,8 @@
 import Api from "../../Api/Api";
-import { UserRegistrationData } from "../../interfaces/user-interface";
+import {
+  LoginFormData,
+  UserRegistrationData,
+} from "../../interfaces/user-interface";
 import { showToast } from "../../utils/helpers";
 import { userActionTypes } from "../actionTypes/userTypes";
 
@@ -13,17 +16,34 @@ export const register =
       dispatch({ type: userActionTypes.REGISTER_SUCCESS, payload: { user } });
       callback();
     } catch (error) {
+      dispatch({
+        type: userActionTypes.REGISTER_FAILURE,
+      });
       showToast(
         "error",
         error.response.data.message,
         error.response.data.error
       );
+    }
+  };
+
+export const login =
+  (userData: LoginFormData, callback: () => void) => async (dispatch: any) => {
+    try {
+      dispatch({ type: userActionTypes.LOGIN_LOADING });
+      const response = await Api.post("/login", userData);
+      console.log({ response });
+      const user = response.data.user;
+      dispatch({ type: userActionTypes.LOGIN_SUCCESS, payload: { user } });
+      callback();
+    } catch (error) {
       dispatch({
-        type: userActionTypes.REGISTER_FAILURE,
-        payload: {
-          message: error.response.data.message,
-          error: error.response.data.error,
-        },
+        type: userActionTypes.LOGIN_FAILURE,
       });
+      showToast(
+        "error",
+        error.response.data.message,
+        error.response.data.error
+      );
     }
   };

@@ -24,7 +24,10 @@ import {
   ValidationData,
 } from "../../../interfaces/user-interface";
 import { loginInput } from "../../../utils/statics";
-import { isEmailValid } from "../../../utils/helpers";
+import { isEmailValid, useAppDispatch } from "../../../utils/helpers";
+import { login } from "../../../store/actions/userActions";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
 
 type Action = { type: string; payload: string };
 const formReducer = (state: LoginFormData, action: Action): LoginFormData => {
@@ -33,6 +36,8 @@ const formReducer = (state: LoginFormData, action: Action): LoginFormData => {
 
 const LoginScreen = () => {
   const navigation = useNavigation<NavigationRoot>();
+  const dispatch = useAppDispatch();
+  const { loadingLogin } = useSelector((state: RootState) => state.userReducer);
   const [formData, formDispatch] = useReducer(formReducer, {
     email: "",
     password: "",
@@ -73,6 +78,24 @@ const LoginScreen = () => {
     setValidationErrors(errors as ValidationData);
     return Object.keys(errors).length === 0;
   };
+
+  const handleSubmit = () => {
+    if (validateForm()) {
+      dispatch(
+        login(
+          {
+            email: formData.email,
+            password: formData.password,
+          },
+          () => {
+            navigation.navigate(ROUTE_NAMES.STACK.MAIN, {
+              screen: ROUTE_NAMES.MAIN_STACK.HOME,
+            });
+          }
+        )
+      );
+    }
+  };
   return (
     <ScreenContainer>
       <ImageBackground
@@ -106,18 +129,18 @@ const LoginScreen = () => {
           </View>
           <CustomButton
             text="Login"
-            loading={false}
-            onPress={() =>
-              navigation.navigate(ROUTE_NAMES.STACK.MAIN, {
-                screen: ROUTE_NAMES.MAIN_STACK.HOME,
-              })
-            }
+            loading={loadingLogin}
+            onPress={handleSubmit}
             isPrimary={true}
           />
           <CustomButton
             loading={false}
             text="Create an account"
-            onPress={() => navigation.navigate(ROUTE_NAMES.AUTH_STACK.REGISTER)}
+            onPress={() => {
+              navigation.navigate(ROUTE_NAMES.STACK.AUTH, {
+                screen: ROUTE_NAMES.AUTH_STACK.REGISTER,
+              });
+            }}
             isPrimary={false}
           />
 
