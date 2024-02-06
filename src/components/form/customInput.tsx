@@ -1,33 +1,85 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
-import React from "react";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import React, { useCallback, useState } from "react";
 import colors from "../../styles/colors";
 import commonStyles from "../../styles/commonStyles";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 interface InputProps {
   label: string;
+  type?:
+    | "default"
+    | "number-pad"
+    | "decimal-pad"
+    | "numeric"
+    | "email-address"
+    | "phone-pad"
+    | "visible-password";
   placeholder: string;
   field: string;
+  formData: any;
+  setFormData: (field: string, value: string) => void;
+  validationError?: string | undefined;
 }
 
 const CustomInput = (props: InputProps) => {
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const togglePasswordVisibility = useCallback(() => {
+    setIsPasswordVisible((prevState) => !prevState);
+  }, []);
+  const handleChange = (text: string) => {
+    props.setFormData(props.field, text);
+  };
   return (
-    <View>
+    <View style={[commonStyles.mb20]}>
       <View style={[commonStyles.pb10]}>
         <Text style={[styles.label, commonStyles.fs14]}>{props.label}</Text>
       </View>
-      <TextInput
-        placeholder={props.placeholder}
-        placeholderTextColor={colors.gray}
+      <View
         style={[
-          commonStyles.w100,
+          commonStyles.row,
           commonStyles.bgWhite,
-          commonStyles.mb20,
+          commonStyles.alignCenter,
           commonStyles.br8,
           commonStyles.borderW1,
+          commonStyles.justifyBetween,
           commonStyles.px10,
           { height: 44, borderColor: "#E2E8F0" },
         ]}
-      />
+      >
+        <TextInput
+          placeholder={props.placeholder}
+          placeholderTextColor={colors.gray}
+          onChangeText={(v) => handleChange(v)}
+          keyboardType={props.type}
+          secureTextEntry={
+            ["password", "confirmPassword"].includes(props.field) &&
+            !isPasswordVisible
+              ? true
+              : false
+          }
+          style={[commonStyles.w90]}
+        />
+        {["password", "confirmPassword"].includes(props.field) && (
+          <TouchableOpacity onPress={togglePasswordVisibility}>
+            <MaterialCommunityIcons
+              name={isPasswordVisible ? "eye-off" : "eye"}
+              size={20}
+              color={colors.gray}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
+      {props.validationError && (
+        <Text style={[commonStyles.fs14, { color: "red", padding: 5 }]}>
+          {props.validationError}
+        </Text>
+      )}
     </View>
   );
 };

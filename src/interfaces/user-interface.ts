@@ -11,3 +11,30 @@ export interface UserState {
   user: string | null;
   error: string | null;
 }
+
+export interface FormData {
+  firstname: string;
+  name: string;
+  phone: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+export interface ValidationData {
+  [key: string]: string;
+}
+
+export interface InputData {
+  id: number;
+  placeholder: string;
+  type:
+    | "default"
+    | "number-pad"
+    | "decimal-pad"
+    | "numeric"
+    | "email-address"
+    | "phone-pad"
+    | "visible-password";
+  field: string;
+  label: string;
+}

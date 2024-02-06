@@ -1,38 +1,46 @@
-export const registerInput = [
+import { InputData } from "../interfaces/user-interface";
+
+export const registerInput: InputData[] = [
   {
     id: 1,
     field: "name",
-    palaceholder: "Doe",
+    placeholder: "Doe",
     label: "Name",
+    type: "default",
   },
   {
     id: 2,
     field: "firstname",
-    palaceholder: "John",
+    placeholder: "John",
     label: "First name",
+    type: "default",
   },
   {
     id: 3,
     field: "email",
-    palaceholder: "test@gmail.com",
+    placeholder: "test@gmail.com",
     label: "E-mail",
+    type: "email-address",
   },
   {
     id: 4,
     field: "phone",
-    palaceholder: "12345678",
+    placeholder: "12345678",
     label: "Phone",
+    type: "numeric",
   },
   {
     id: 5,
     field: "password",
-    palaceholder: "*******",
+    placeholder: "*******",
     label: "Password",
+    type: "default",
   },
   {
     id: 6,
     field: "confirmPassword",
-    palaceholder: "*******",
+    placeholder: "*******",
     label: "Confirm password",
+    type: "default",
   },
 ];

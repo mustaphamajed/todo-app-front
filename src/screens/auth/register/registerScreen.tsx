@@ -5,7 +5,7 @@ import {
   Text,
   View,
 } from "react-native";
-import React from "react";
+import React, { useCallback, useReducer, useState } from "react";
 import { CustomButton, ScreenContainer } from "../../../components/shared";
 import commonStyles from "../../../styles/commonStyles";
 import RegisterHeader from "../../../components/headers/registerHeader";
@@ -13,12 +13,88 @@ import { registerInput } from "../../../utils/statics";
 import { CustomInput } from "../../../components/form";
 import { useNavigation } from "@react-navigation/native";
 import { NavigationRoot } from "../../../interfaces/navigation-interface";
+import { FormData, ValidationData } from "../../../interfaces/user-interface";
+import { isEmailValid, isValidPassword } from "../../../utils/helpers";
+
+type Action = { type: string; payload: string };
+const formReducer = (state: FormData, action: Action): FormData => {
+  return { ...state, [action.type]: action.payload };
+};
 
 const RegisterScreen = () => {
   const navigation = useNavigation<NavigationRoot>();
 
+  const [formData, formDispatch] = useReducer(formReducer, {
+    firstname: "",
+    name: "",
+    phone: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [validationErrors, setValidationErrors] = useState<ValidationData>({});
   const handleGoBack = () => {
     navigation.goBack();
+  };
+
+  const inputChangehandler = useCallback(
+    (field: string, inputValue: string) => {
+      formDispatch({ type: field, payload: inputValue });
+
+      if (
+        validationErrors &&
+        validationErrors[field as keyof ValidationData] &&
+        inputValue.trim().length > 0
+      ) {
+        const updatedErrors = { ...validationErrors };
+        delete updatedErrors[field as keyof ValidationData];
+        setValidationErrors(updatedErrors);
+      }
+    },
+    [formData, formDispatch, validationErrors, setValidationErrors]
+  );
+
+  const validateForm = () => {
+    const requiredFields: (keyof FormData)[] = [
+      "firstname",
+      "name",
+      "email",
+      "phone",
+      "password",
+      "confirmPassword",
+    ];
+    const errors: Partial<ValidationData> = {};
+
+    requiredFields.forEach((field) => {
+      if (!formData[field]?.trim()) {
+        errors[field] = `${
+          field.charAt(0).toUpperCase() + field.slice(1)
+        } is required!`;
+      }
+    });
+    if (formData.name.length < 4) {
+      errors["name"] = `Name should be more than 4 characters!`;
+    }
+    if (formData.firstname.length < 4) {
+      errors["firstname"] = `First name should be more than 4 characters!`;
+    }
+    if (!isEmailValid(formData.email)) {
+      errors["email"] = `Email is invalid !`;
+    }
+    if (!isValidPassword(formData.password)) {
+      errors[
+        "newPassword"
+      ] = `Password must contain at least one uppercase letter, one lowercase letter, and one digit`;
+    }
+    if (formData.confirmPassword !== formData.password) {
+      errors["confirmPassword"] = `Password and confirm password do not match.`;
+    }
+    setValidationErrors(errors as ValidationData);
+    return Object.keys(errors).length === 0;
+  };
+  const handleSubmit = () => {
+    validateForm();
+    console.log(formData);
   };
   return (
     <ScreenContainer>
@@ -32,13 +108,17 @@ const RegisterScreen = () => {
           style={[commonStyles.bgWhite, commonStyles.flex1, commonStyles.p20]}
         >
           <ScrollView showsVerticalScrollIndicator={false}>
-            {registerInput.map(({ field, id, label, palaceholder }) => {
+            {registerInput.map(({ type, field, id, label, placeholder }) => {
               return (
                 <CustomInput
                   field={field}
                   label={label}
-                  placeholder={palaceholder}
+                  placeholder={placeholder}
                   key={id}
+                  type={type}
+                  formData={formData}
+                  setFormData={inputChangehandler}
+                  validationError={validationErrors[field]}
                 />
               );
             })}
@@ -51,7 +131,7 @@ const RegisterScreen = () => {
               />
               <CustomButton
                 isPrimary={true}
-                onPress={() => console.log("first")}
+                onPress={handleSubmit}
                 text="Create"
                 fullWidth={false}
               />
