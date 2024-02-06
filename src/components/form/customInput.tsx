@@ -56,6 +56,7 @@ const CustomInput = (props: InputProps) => {
           placeholder={props.placeholder}
           placeholderTextColor={colors.gray}
           onChangeText={(v) => handleChange(v)}
+          autoCapitalize="none"
           keyboardType={props.type}
           secureTextEntry={
             ["password", "confirmPassword"].includes(props.field) &&

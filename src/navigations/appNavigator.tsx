@@ -30,23 +30,19 @@ export const AppNavigator = () => {
     checkToken();
   }, []);
 
-  if (token) {
-    return (
-      <RootStack.Navigator screenOptions={{ headerShown: false }}>
+  return (
+    <RootStack.Navigator screenOptions={{ headerShown: false }}>
+      {token ? (
         <RootStack.Screen
           name={ROUTE_NAMES.STACK.MAIN}
           component={MainNavigator}
         />
-      </RootStack.Navigator>
-    );
-  } else {
-    return (
-      <RootStack.Navigator screenOptions={{ headerShown: false }}>
+      ) : (
         <RootStack.Screen
           name={ROUTE_NAMES.STACK.AUTH}
           component={AuthNavigator}
         />
-      </RootStack.Navigator>
-    );
-  }
+      )}
+    </RootStack.Navigator>
+  );
 };

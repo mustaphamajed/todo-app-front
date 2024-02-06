@@ -51,7 +51,7 @@ export const loginInput: InputData[] = [
     field: "email",
     placeholder: "test@gmail.com",
     label: "E-mail",
-    type: "email-address",
+    type: "default",
   },
 
   {
