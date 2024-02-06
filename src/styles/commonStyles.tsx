@@ -34,6 +34,9 @@ export default StyleSheet.create({
   bgTransparent: {
     backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
+  bgWhite: {
+    backgroundColor: colors.white,
+  },
 
   //lineHeigh
   lineHeight12: {
