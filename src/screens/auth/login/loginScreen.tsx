@@ -16,8 +16,12 @@ import {
   SocialMediaButton,
 } from "../../../components/shared";
 import { FacebookIcon, GoogleIcon } from "../../../utils/icons";
+import { useNavigation } from "@react-navigation/native";
+import { NavigationRoot } from "../../../interfaces/navigation-interface";
+import { ROUTE_NAMES } from "../../../utils/routes";
 
 const LoginScreen = () => {
+  const navigation = useNavigation<NavigationRoot>();
   return (
     <ScreenContainer>
       <ImageBackground
@@ -51,7 +55,7 @@ const LoginScreen = () => {
           />
           <CustomButton
             text="Create an account"
-            onPress={() => console.log("first")}
+            onPress={() => navigation.navigate(ROUTE_NAMES.AUTH_STACK.REGISTER)}
             isPrimary={false}
           />
 
