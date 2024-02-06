@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { AppNavigator } from "./src/navigations/appNavigator";
 import { Provider } from "react-redux";
 import store from "./src/store/store";
+import Toast from "react-native-toast-message";
 
 export default function App() {
   return (
@@ -11,15 +12,7 @@ export default function App() {
       <NavigationContainer>
         <AppNavigator />
       </NavigationContainer>
+      <Toast bottomOffset={100} />
     </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

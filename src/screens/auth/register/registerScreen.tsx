@@ -22,6 +22,7 @@ import {
 import { register } from "../../../store/actions/userActions";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
+import { ROUTE_NAMES } from "../../../utils/routes";
 
 type Action = { type: string; payload: string };
 const formReducer = (state: FormData, action: Action): FormData => {
@@ -31,7 +32,7 @@ const formReducer = (state: FormData, action: Action): FormData => {
 const RegisterScreen = () => {
   const navigation = useNavigation<NavigationRoot>();
   const dispatch = useAppDispatch();
-  const { loadingRegister } = useSelector(
+  const { loadingRegister, error } = useSelector(
     (state: RootState) => state.userReducer
   );
   const [formData, formDispatch] = useReducer(formReducer, {
@@ -46,7 +47,6 @@ const RegisterScreen = () => {
   const handleGoBack = () => {
     navigation.goBack();
   };
-
   const inputChangehandler = useCallback(
     (field: string, inputValue: string) => {
       formDispatch({ type: field, payload: inputValue });
@@ -103,17 +103,22 @@ const RegisterScreen = () => {
     return Object.keys(errors).length === 0;
   };
   const handleSubmit = () => {
-    console.log(validationErrors);
     if (validateForm()) {
-      console.log("first");
       dispatch(
-        register({
-          firstname: formData.firstname,
-          email: formData.email,
-          name: formData.name,
-          password: formData.password,
-          phone: formData.phone,
-        })
+        register(
+          {
+            firstname: formData.firstname,
+            email: formData.email,
+            name: formData.name,
+            password: formData.password,
+            phone: formData.phone,
+          },
+          () => {
+            navigation.navigate(ROUTE_NAMES.STACK.MAIN, {
+              screen: ROUTE_NAMES.MAIN_STACK.HOME,
+            });
+          }
+        )
       );
     }
   };
