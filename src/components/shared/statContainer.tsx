@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import commonStyles from "../../styles/commonStyles";
+import { StatsCard } from "../cards";
 
 const StatContainer = () => {
   const stats = [
@@ -22,15 +23,7 @@ const StatContainer = () => {
       ]}
     >
       {stats.map(({ count, id, label }) => {
-        return (
-          <View
-            key={id}
-            style={[commonStyles.justifyCenter, commonStyles.alignCenter]}
-          >
-            <Text>{count}</Text>
-            <Text>{label}</Text>
-          </View>
-        );
+        return <StatsCard key={id} count={count} label={label} />;
       })}
     </View>
   );

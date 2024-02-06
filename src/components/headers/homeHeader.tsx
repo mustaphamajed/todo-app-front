@@ -30,7 +30,7 @@ export default HomeHeader;
 
 const styles = StyleSheet.create({
   parent: {
-    height: "20%",
+    height: "18%",
     width: "100%",
     transform: [{ scaleX: 2 }],
     borderBottomStartRadius: 200,
