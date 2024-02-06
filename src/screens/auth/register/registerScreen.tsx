@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import ScreenContainer from "../../../components/screenContainer";
+import { ScreenContainer } from "../../../components/shared";
 
 const RegisterScreen = () => {
   return (
