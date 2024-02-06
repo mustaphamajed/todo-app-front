@@ -48,9 +48,9 @@ const styles = StyleSheet.create({
     maxHeight: "80%",
   },
   line: {
-    width: 48,
-    height: 6,
-    backgroundColor: "#EBEBEB",
+    width: 32,
+    height: 4,
+    backgroundColor: "#6B7280",
     alignSelf: "center",
     marginVertical: 15,
     borderRadius: 20,

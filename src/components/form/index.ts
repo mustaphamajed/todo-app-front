@@ -1,3 +1,3 @@
 import CustomInput from "./customInput";
-
-export { CustomInput };
+import RadioButton from "./radioButton";
+export { CustomInput, RadioButton };

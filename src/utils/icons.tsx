@@ -89,3 +89,15 @@ export const PlusIcon = () => {
     </Svg>
   );
 };
+export const SortIcon = () => {
+  return (
+    <Svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none">
+      <Path
+        stroke="#64748B"
+        strokeLinecap="round"
+        strokeWidth={1.5}
+        d="M3 7h18M8 12h13M13 17h8"
+      />
+    </Svg>
+  );
+};
