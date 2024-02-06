@@ -8,8 +8,8 @@ export interface UserRegistrationData {
 
 export interface UserState {
   loadingRegister: boolean;
-  user: string | null;
-  error: string | null;
+  user: Object | null;
+  error: Object | null;
 }
 
 export interface FormData {

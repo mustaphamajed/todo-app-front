@@ -14,6 +14,18 @@ interface LoadingRegisterAction {
 
 interface RegisterSuccessAction {
   type: typeof userActionTypes.REGISTER_SUCCESS;
+  payload: any;
 }
 
-export type UserActionTypes = LoadingRegisterAction | RegisterSuccessAction;
+interface RegisterFailedAction {
+  type: typeof userActionTypes.REGISTER_FAILURE;
+  payload: {
+    error: string;
+    message: string;
+  };
+}
+
+export type UserActionTypes =
+  | LoadingRegisterAction
+  | RegisterSuccessAction
+  | RegisterFailedAction;
