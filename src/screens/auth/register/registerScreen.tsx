@@ -14,7 +14,14 @@ import { CustomInput } from "../../../components/form";
 import { useNavigation } from "@react-navigation/native";
 import { NavigationRoot } from "../../../interfaces/navigation-interface";
 import { FormData, ValidationData } from "../../../interfaces/user-interface";
-import { isEmailValid, isValidPassword } from "../../../utils/helpers";
+import {
+  isEmailValid,
+  isValidPassword,
+  useAppDispatch,
+} from "../../../utils/helpers";
+import { register } from "../../../store/actions/userActions";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
 
 type Action = { type: string; payload: string };
 const formReducer = (state: FormData, action: Action): FormData => {
@@ -23,7 +30,10 @@ const formReducer = (state: FormData, action: Action): FormData => {
 
 const RegisterScreen = () => {
   const navigation = useNavigation<NavigationRoot>();
-
+  const dispatch = useAppDispatch();
+  const { loadingRegister } = useSelector(
+    (state: RootState) => state.userReducer
+  );
   const [formData, formDispatch] = useReducer(formReducer, {
     firstname: "",
     name: "",
@@ -83,7 +93,7 @@ const RegisterScreen = () => {
     }
     if (!isValidPassword(formData.password)) {
       errors[
-        "newPassword"
+        "password"
       ] = `Password must contain at least one uppercase letter, one lowercase letter, and one digit`;
     }
     if (formData.confirmPassword !== formData.password) {
@@ -93,8 +103,19 @@ const RegisterScreen = () => {
     return Object.keys(errors).length === 0;
   };
   const handleSubmit = () => {
-    validateForm();
-    console.log(formData);
+    console.log(validationErrors);
+    if (validateForm()) {
+      console.log("first");
+      dispatch(
+        register({
+          firstname: formData.firstname,
+          email: formData.email,
+          name: formData.name,
+          password: formData.password,
+          phone: formData.phone,
+        })
+      );
+    }
   };
   return (
     <ScreenContainer>
@@ -128,12 +149,14 @@ const RegisterScreen = () => {
                 onPress={handleGoBack}
                 text="Cancel"
                 fullWidth={false}
+                loading={false}
               />
               <CustomButton
                 isPrimary={true}
                 onPress={handleSubmit}
                 text="Create"
                 fullWidth={false}
+                loading={loadingRegister}
               />
             </View>
           </ScrollView>

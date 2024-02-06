@@ -1,19 +1,19 @@
-import api from "../../Api/api";
+import Api from "../../Api/Api";
 import { UserRegistrationData } from "../../interfaces/user-interface";
 import { userActionTypes } from "../actionTypes/userTypes";
 
 export const register =
   (userData: UserRegistrationData) => async (dispatch: any) => {
     try {
-      dispatch(userActionTypes.REGISTER_LOADING);
-
-      const response = await api.post("/register", userData);
-
+      dispatch({ type: userActionTypes.REGISTER_LOADING });
+      console.log("first");
+      const response = await Api.post("/register", userData);
+      console.log({ response });
       const user = response;
-      console.log(user);
       dispatch({ type: userActionTypes.REGISTER_SUCCESS });
     } catch (error) {
       console.log(error);
+      console.log(JSON.stringify(error));
       dispatch({ type: userActionTypes.REGISTER_FAILURE });
     }
   };

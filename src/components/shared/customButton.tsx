@@ -1,4 +1,10 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React from "react";
 import colors from "../../styles/colors";
 import commonStyles from "../../styles/commonStyles";
@@ -6,6 +12,7 @@ interface ButtonProps {
   text: string;
   onPress: () => void;
   isPrimary: boolean;
+  loading: boolean;
   fullWidth?: boolean;
 }
 
@@ -25,15 +32,21 @@ const CustomButton = (props: ButtonProps) => {
       ]}
       onPress={props.onPress}
     >
-      <Text
-        style={[
-          commonStyles.fs14,
-          props.isPrimary ? commonStyles.textWhite : commonStyles.textBlack,
-          { fontWeight: "500" },
-        ]}
-      >
-        {props.text}
-      </Text>
+      {props.loading ? (
+        <ActivityIndicator
+          color={props.isPrimary ? colors.white : colors.black}
+        />
+      ) : (
+        <Text
+          style={[
+            commonStyles.fs14,
+            props.isPrimary ? commonStyles.textWhite : commonStyles.textBlack,
+            { fontWeight: "500" },
+          ]}
+        >
+          {props.text}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 };
