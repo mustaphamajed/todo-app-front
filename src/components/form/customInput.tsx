@@ -23,7 +23,9 @@ const CustomInput = (props: InputProps) => {
           commonStyles.bgWhite,
           commonStyles.mb20,
           commonStyles.br8,
-          { height: 44 },
+          commonStyles.borderW1,
+          commonStyles.px10,
+          { height: 44, borderColor: "#E2E8F0" },
         ]}
       />
     </View>
