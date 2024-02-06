@@ -20,6 +20,11 @@ export interface FormData {
   password: string;
   confirmPassword: string;
 }
+export interface LoginFormData {
+  email: string;
+  password: string;
+}
+
 export interface ValidationData {
   [key: string]: string;
 }

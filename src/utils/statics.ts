@@ -44,3 +44,21 @@ export const registerInput: InputData[] = [
     type: "default",
   },
 ];
+
+export const loginInput: InputData[] = [
+  {
+    id: 1,
+    field: "email",
+    placeholder: "test@gmail.com",
+    label: "E-mail",
+    type: "email-address",
+  },
+
+  {
+    id: 2,
+    field: "password",
+    placeholder: "*******",
+    label: "Password",
+    type: "default",
+  },
+];
