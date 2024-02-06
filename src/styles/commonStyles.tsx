@@ -37,6 +37,16 @@ export default StyleSheet.create({
   bgWhite: {
     backgroundColor: colors.white,
   },
+  bgBlue: {
+    backgroundColor: colors.blue,
+  },
+
+  textWhite: {
+    color: colors.white,
+  },
+  textBlack: {
+    color: colors.black,
+  },
 
   //lineHeigh
   lineHeight12: {
