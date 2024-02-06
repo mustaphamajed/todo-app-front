@@ -4,6 +4,7 @@ import {
   UserRegistrationData,
 } from "../../interfaces/user-interface";
 import { showToast } from "../../utils/helpers";
+import { STORAGE, getData, storeData } from "../../utils/storage";
 import { userActionTypes } from "../actionTypes/userTypes";
 
 export const register =
@@ -32,9 +33,11 @@ export const login =
     try {
       dispatch({ type: userActionTypes.LOGIN_LOADING });
       const response = await Api.post("/login", userData);
-      console.log({ response });
       const user = response.data.user;
+      const token = response.data.token;
       dispatch({ type: userActionTypes.LOGIN_SUCCESS, payload: { user } });
+      await storeData(STORAGE.accessToken, token);
+
       callback();
     } catch (error) {
       dispatch({
