@@ -1,6 +1,12 @@
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
+import {
+  ImageBackground,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import React from "react";
-import { ScreenContainer } from "../../../components/shared";
+import { CustomButton, ScreenContainer } from "../../../components/shared";
 import commonStyles from "../../../styles/commonStyles";
 import RegisterHeader from "../../../components/headers/registerHeader";
 import { registerInput } from "../../../utils/statics";
@@ -25,16 +31,32 @@ const RegisterScreen = () => {
         <View
           style={[commonStyles.bgWhite, commonStyles.flex1, commonStyles.p20]}
         >
-          {registerInput.map(({ field, id, label, palaceholder }) => {
-            return (
-              <CustomInput
-                field={field}
-                label={label}
-                placeholder={palaceholder}
-                key={id}
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {registerInput.map(({ field, id, label, palaceholder }) => {
+              return (
+                <CustomInput
+                  field={field}
+                  label={label}
+                  placeholder={palaceholder}
+                  key={id}
+                />
+              );
+            })}
+            <View style={[commonStyles.justifyBetween, commonStyles.row]}>
+              <CustomButton
+                isPrimary={false}
+                onPress={handleGoBack}
+                text="Cancel"
+                fullWidth={false}
               />
-            );
-          })}
+              <CustomButton
+                isPrimary={true}
+                onPress={() => console.log("first")}
+                text="Create"
+                fullWidth={false}
+              />
+            </View>
+          </ScrollView>
         </View>
       </ImageBackground>
     </ScreenContainer>

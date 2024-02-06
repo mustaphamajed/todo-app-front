@@ -6,19 +6,22 @@ interface ButtonProps {
   text: string;
   onPress: () => void;
   isPrimary: boolean;
+  fullWidth?: boolean;
 }
 
 const CustomButton = (props: ButtonProps) => {
+  const { fullWidth = true } = props;
   return (
     <TouchableOpacity
       style={[
-        commonStyles.w100,
+        !fullWidth ? commonStyles.w45 : commonStyles.w100,
         commonStyles.br8,
         commonStyles.my10,
         commonStyles.alignCenter,
         commonStyles.justifyCenter,
         props.isPrimary ? commonStyles.bgBlue : commonStyles.bgWhite,
-        { height: 45 },
+        !props.isPrimary && commonStyles.borderW1,
+        { height: 45, borderColor: "#E2E8F0" },
       ]}
       onPress={props.onPress}
     >
