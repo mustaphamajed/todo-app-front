@@ -16,11 +16,10 @@ export const fetchTasks = () => async (dispatch: any) => {
       },
     });
     const tasks = response.data.tasks;
-    console.log(tasks);
 
     dispatch({
       type: taskActionTypes.FETCH_TASKS_SUCCESS,
-      payload: { tasks },
+      payload: tasks,
     });
     //   await storeData(STORAGE.accessToken, token);
 
