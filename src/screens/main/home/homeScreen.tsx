@@ -1,14 +1,25 @@
 import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ScreenContainer, StatContainer } from "../../../components/shared";
 
 import HomeHeader from "../../../components/headers/homeHeader";
 import commonStyles from "../../../styles/commonStyles";
 import { SortIcon } from "../../../utils/icons";
 import { SortBottomSheet } from "../../../components/bottomSheet";
+import { useAppDispatch } from "../../../utils/helpers";
+import { fetchTasks } from "../../../store/actions/taskActions";
 
 const HomeScreen = () => {
+  const dispatch = useAppDispatch();
   const [openSortModal, setOpenSortModal] = useState<boolean>(false);
+
+  const fetchAllTasks = useCallback(() => {
+    dispatch(fetchTasks());
+  }, []);
+  useEffect(() => {
+    fetchAllTasks();
+  }, []);
+
   return (
     <ScreenContainer>
       <HomeHeader />
