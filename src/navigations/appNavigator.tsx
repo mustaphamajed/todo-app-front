@@ -7,6 +7,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ROUTE_NAMES } from "../utils/routes";
 import { STORAGE, getData } from "../utils/storage";
 import { NavigationRoot } from "../interfaces/navigation-interface";
+import { useAppDispatch } from "../utils/helpers";
+import { fetchCurrentUser } from "../store/actions/userActions";
 
 export type RootStackParamList = {
   auth: NavigatorScreenParams<AuthStackParamList>;
@@ -17,6 +19,7 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 export const AppNavigator = () => {
   const navigation = useNavigation<NavigationRoot>();
+  const dispatch = useAppDispatch();
   const [token, setToken] = useState<string | null>(null);
   useEffect(() => {
     const checkToken = async () => {
@@ -24,6 +27,7 @@ export const AppNavigator = () => {
         const storedToken = await getData(STORAGE.accessToken);
         setToken(storedToken);
         if (storedToken) {
+          dispatch(fetchCurrentUser());
           navigation.navigate(ROUTE_NAMES.STACK.MAIN, {
             screen: ROUTE_NAMES.MAIN_STACK.HOME,
           });

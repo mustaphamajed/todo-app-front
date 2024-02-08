@@ -8,9 +8,18 @@ import { SortIcon } from "../../../utils/icons";
 import { SortBottomSheet } from "../../../components/bottomSheet";
 import { useAppDispatch } from "../../../utils/helpers";
 import { fetchTasks } from "../../../store/actions/taskActions";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
+import { TasksList } from "../../../components/task";
 
 const HomeScreen = () => {
   const dispatch = useAppDispatch();
+  const { loadingFetch, user } = useSelector(
+    (state: RootState) => state.userReducer
+  );
+  const { loadingFetch: loading, tasks } = useSelector(
+    (state: RootState) => state.taskReducer
+  );
   const [openSortModal, setOpenSortModal] = useState<boolean>(false);
 
   const fetchAllTasks = useCallback(() => {
@@ -48,6 +57,7 @@ const HomeScreen = () => {
             <SortIcon />
           </Pressable>
         </View>
+        <TasksList tasks={tasks} />
       </View>
       <SortBottomSheet
         openBottom={openSortModal}
