@@ -4,7 +4,7 @@ import {
   UserRegistrationData,
 } from "../../interfaces/user-interface";
 import { showToast } from "../../utils/helpers";
-import { STORAGE, getData, storeData } from "../../utils/storage";
+import { STORAGE, deleteData, getData, storeData } from "../../utils/storage";
 import { userActionTypes } from "../actionTypes/userTypes";
 
 export const register =
@@ -50,3 +50,25 @@ export const login =
       );
     }
   };
+
+export const fetchCurrentUser = () => async (dispatch: any) => {
+  try {
+    const token = await getData(STORAGE.accessToken);
+    dispatch({ type: userActionTypes.FETCH_USER_LOADING });
+    const response = await Api.get("/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    const user = response.data.user;
+    dispatch({ type: userActionTypes.FETCH_USER_SUCCESS, payload: user });
+  } catch (error) {
+    await deleteData(STORAGE.accessToken);
+    dispatch({
+      type: userActionTypes.FETCH_USER_FAILURE,
+    });
+    showToast("error", error.response.data.message, error.response.data.error);
+  }
+};

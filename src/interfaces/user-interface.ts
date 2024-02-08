@@ -9,6 +9,7 @@ export interface UserRegistrationData {
 export interface UserState {
   loadingRegister: boolean;
   loadingLogin: boolean;
+  loadingFetch: boolean;
   user: Object | null;
   error: Object | null;
 }
