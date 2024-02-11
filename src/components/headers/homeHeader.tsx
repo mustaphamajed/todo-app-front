@@ -4,7 +4,7 @@ import colors from "../../styles/colors";
 import { MenuIcon, PlusIcon, WhiteAppLogo } from "../../utils/icons";
 import commonStyles from "../../styles/commonStyles";
 import { StatContainer } from "../shared";
-import TaskForm from "../bottomSheet/taskForm";
+import { TaskForm } from "../bottomSheet";
 
 const HomeHeader = () => {
   const [openFormModal, setopenFormModal] = useState<boolean>(false);
