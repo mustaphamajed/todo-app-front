@@ -72,3 +72,24 @@ export const fetchCurrentUser = () => async (dispatch: any) => {
     showToast("error", error.response.data.message, error.response.data.error);
   }
 };
+
+export const fetchAllUsers = () => async (dispatch: any) => {
+  try {
+    const token = await getData(STORAGE.accessToken);
+    dispatch({ type: userActionTypes.FETCH_USERS_LOADING });
+    const response = await Api.get("/users", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    const users = response.data.users;
+    dispatch({ type: userActionTypes.FETCH_USERS_SUCCESS, payload: users });
+  } catch (error) {
+    dispatch({
+      type: userActionTypes.FETCH_USERS_FAILURE,
+    });
+    showToast("error", "Error Fetching !", "Error fetching users !");
+  }
+};

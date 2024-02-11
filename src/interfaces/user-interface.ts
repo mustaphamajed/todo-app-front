@@ -9,9 +9,11 @@ export interface UserRegistrationData {
 export interface UserState {
   loadingRegister: boolean;
   loadingLogin: boolean;
+  loadingFetchAll: boolean;
   loadingFetch: boolean;
   user: Object | null;
   error: Object | null;
+  users: Object[] | [];
 }
 
 export interface FormData {

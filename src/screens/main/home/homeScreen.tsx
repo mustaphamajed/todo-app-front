@@ -11,6 +11,7 @@ import { fetchTasks } from "../../../store/actions/taskActions";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { TasksList } from "../../../components/task";
+import { fetchAllUsers } from "../../../store/actions/userActions";
 
 const HomeScreen = () => {
   const dispatch = useAppDispatch();
@@ -22,11 +23,12 @@ const HomeScreen = () => {
   );
   const [openSortModal, setOpenSortModal] = useState<boolean>(false);
 
-  const fetchAllTasks = useCallback(() => {
+  const initializeData = useCallback(() => {
+    dispatch(fetchAllUsers());
     dispatch(fetchTasks());
   }, []);
   useEffect(() => {
-    fetchAllTasks();
+    initializeData();
   }, []);
 
   return (
