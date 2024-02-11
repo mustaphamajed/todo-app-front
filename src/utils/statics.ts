@@ -62,3 +62,21 @@ export const loginInput: InputData[] = [
     type: "default",
   },
 ];
+
+export const taskInput: InputData[] = [
+  {
+    id: 1,
+    field: "title",
+    placeholder: "title",
+    label: "Title",
+    type: "default",
+  },
+
+  {
+    id: 2,
+    field: "description",
+    placeholder: "Description",
+    label: "Description",
+    type: "default",
+  },
+];
