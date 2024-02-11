@@ -57,7 +57,7 @@ const HomeScreen = () => {
             <SortIcon />
           </Pressable>
         </View>
-        <TasksList tasks={tasks} />
+        <TasksList tasks={tasks} loading={loading} />
       </View>
       <SortBottomSheet
         openBottom={openSortModal}
