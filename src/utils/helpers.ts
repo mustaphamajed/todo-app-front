@@ -22,3 +22,10 @@ export const showToast = (type: string, text1: string, text2: string) => {
     position: "top",
   });
 };
+
+export const mapUsersData = (users: any) => {
+  return users.map((user) => ({
+    value: user.id,
+    label: user.firstname + " " + user.name,
+  }));
+};
