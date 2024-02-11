@@ -25,6 +25,7 @@ interface InputProps {
   formData: any;
   setFormData: (field: string, value: string) => void;
   validationError?: string | undefined;
+  required?: boolean;
 }
 
 const CustomInput = (props: InputProps) => {
@@ -37,8 +38,11 @@ const CustomInput = (props: InputProps) => {
   };
   return (
     <View style={[commonStyles.mb20]}>
-      <View style={[commonStyles.pb10]}>
+      <View style={[commonStyles.pb10, commonStyles.row]}>
         <Text style={[styles.label, commonStyles.fs14]}>{props.label}</Text>
+        {props.required && (
+          <Text style={{ color: "red", marginLeft: 5 }}>*</Text>
+        )}
       </View>
       <View
         style={[

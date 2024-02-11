@@ -44,4 +44,5 @@ export interface InputData {
     | "visible-password";
   field: string;
   label: string;
+  required?: boolean;
 }

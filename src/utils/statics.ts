@@ -70,6 +70,7 @@ export const taskInput: InputData[] = [
     placeholder: "title",
     label: "Title",
     type: "default",
+    required: true,
   },
 
   {
@@ -78,5 +79,6 @@ export const taskInput: InputData[] = [
     placeholder: "Description",
     label: "Description",
     type: "default",
+    required: true,
   },
 ];

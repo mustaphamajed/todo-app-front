@@ -87,7 +87,7 @@ const TaskForm = (props: FormBottomSheetProps) => {
         <View style={[commonStyles.alignCenter, commonStyles.pb20]}>
           <Text style={[commonStyles.fs20]}>New Task</Text>
         </View>
-        {taskInput.map(({ field, id, label, placeholder, type }) => {
+        {taskInput.map(({ field, id, label, placeholder, type, required }) => {
           return (
             <CustomInput
               key={id}
@@ -97,6 +97,7 @@ const TaskForm = (props: FormBottomSheetProps) => {
               formData={formData}
               setFormData={inputChangehandler}
               type={type}
+              required={required}
               validationError={validationErrors[field]}
             />
           );
