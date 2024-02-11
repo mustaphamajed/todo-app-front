@@ -1,11 +1,13 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
 import colors from "../../styles/colors";
 import { MenuIcon, PlusIcon, WhiteAppLogo } from "../../utils/icons";
 import commonStyles from "../../styles/commonStyles";
 import { StatContainer } from "../shared";
+import TaskForm from "../bottomSheet/taskForm";
 
 const HomeHeader = () => {
+  const [openFormModal, setopenFormModal] = useState<boolean>(false);
   return (
     <View style={styles.parent}>
       <View style={styles.child}>
@@ -19,9 +21,15 @@ const HomeHeader = () => {
         >
           <MenuIcon />
           <WhiteAppLogo />
-          <PlusIcon />
+          <Pressable onPress={() => setopenFormModal(true)}>
+            <PlusIcon />
+          </Pressable>
         </View>
       </View>
+      <TaskForm
+        openBottom={openFormModal}
+        setOpenBottomModal={() => setopenFormModal(false)}
+      />
     </View>
   );
 };

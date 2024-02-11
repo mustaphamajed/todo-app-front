@@ -51,12 +51,14 @@ const SortBottomSheet = (props: SortBottomSheetProps) => {
             onPress={() => props.setOpenBottomModal(false)}
             text="Cancel"
             fullWidth={false}
+            loading={false}
           />
           <CustomButton
             isPrimary={true}
             onPress={() => console.log("first")}
             text="Confirm"
             fullWidth={false}
+            loading={false}
           />
         </View>
       </View>
