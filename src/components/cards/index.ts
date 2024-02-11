@@ -1,4 +1,4 @@
 import StatsCard from "./statsCard";
 import TaskCard from "./taskCard";
-
-export { StatsCard, TaskCard };
+import SelectCard from "./selectCard";
+export { StatsCard, TaskCard, SelectCard };

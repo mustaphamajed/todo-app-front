@@ -1,10 +1,26 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
 import commonStyles from "../../styles/commonStyles";
 import colors from "../../styles/colors";
+import { MaterialIcons } from "@expo/vector-icons";
+import { SelectBottomSheet } from "../bottomSheet";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { mapUsersData } from "../../utils/helpers";
 
+interface ModalData {
+  title: string;
+  data: { label: string; value: string }[];
+  handleSubmit: () => void;
+}
 const TaskCard = ({ item }: { item: any }) => {
-  console.log(item);
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const { users } = useSelector((state: RootState) => state.userReducer);
+  const [modalData, setModalData] = useState<ModalData>({
+    title: "",
+    data: [],
+    handleSubmit: () => {},
+  });
   return (
     <View
       style={[
@@ -32,7 +48,17 @@ const TaskCard = ({ item }: { item: any }) => {
         >
           {item?.title}
         </Text>
-        <View style={[commonStyles.row, commonStyles.alignCenter]}>
+        <Pressable
+          style={[commonStyles.row, commonStyles.alignCenter]}
+          onPress={() => {
+            setModalData({
+              data: [],
+              handleSubmit: () => console.log("first"),
+              title: "Update Status",
+            });
+            setOpenModal(true);
+          }}
+        >
           <View
             style={{
               width: 7,
@@ -50,18 +76,37 @@ const TaskCard = ({ item }: { item: any }) => {
           >
             {item?.status}
           </Text>
-        </View>
+        </Pressable>
       </View>
       <View style={[commonStyles.pb10]}>
         <Text style={[commonStyles.fs16, { color: "#334155" }]}>
           {item?.description}
         </Text>
       </View>
-      <View style={[commonStyles.row, commonStyles.alignCenter]}>
+      <Pressable
+        style={[commonStyles.row, commonStyles.alignCenter]}
+        onPress={() => {
+          setModalData({
+            data: mapUsersData(users),
+            handleSubmit: () => console.log("first"),
+            title: "Select User",
+          });
+          setOpenModal(true);
+        }}
+      >
         <Text style={[commonStyles.fs14, { color: "#CBD5E1" }]}>For </Text>
-        <Text> {item?.user?.firstname} </Text>
-        <Text>{item?.user?.name}</Text>
-      </View>
+        <View style={[commonStyles.w50]}>
+          <Text> {item?.user?.firstname} </Text>
+          <Text>{item?.user?.name}</Text>
+        </View>
+        <MaterialIcons name="arrow-drop-down" size={24} color="black" />
+      </Pressable>
+      <SelectBottomSheet
+        openBottom={openModal}
+        setOpenBottomModal={() => setOpenModal(false)}
+        title={modalData.title}
+        data={modalData.data}
+      />
     </View>
   );
 };
