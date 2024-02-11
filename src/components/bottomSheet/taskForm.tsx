@@ -6,6 +6,10 @@ import { ValidationData } from "../../interfaces/user-interface";
 import { taskInput } from "../../utils/statics";
 import { CustomInput } from "../form";
 import commonStyles from "../../styles/commonStyles";
+import { useAppDispatch } from "../../utils/helpers";
+import { createTask } from "../../store/actions/taskActions";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 interface FormBottomSheetProps {
   openBottom: boolean;
@@ -17,6 +21,8 @@ const formReducer = (state: TaskFormData, action: Action): TaskFormData => {
 };
 
 const TaskForm = (props: FormBottomSheetProps) => {
+  const dispatch = useAppDispatch();
+  const { loadingAdd } = useSelector((state: RootState) => state.taskReducer);
   const [formData, formDispatch] = useReducer(formReducer, {
     title: "",
     description: "",
@@ -65,6 +71,11 @@ const TaskForm = (props: FormBottomSheetProps) => {
 
   const handleSubmit = () => {
     if (validateForm()) {
+      dispatch(
+        createTask(formData, () => {
+          props.setOpenBottomModal(false);
+        })
+      );
     }
   };
   return (
@@ -109,7 +120,7 @@ const TaskForm = (props: FormBottomSheetProps) => {
             onPress={handleSubmit}
             text="Confirm"
             fullWidth={false}
-            loading={false}
+            loading={loadingAdd}
           />
         </View>
       </View>

@@ -1,13 +1,13 @@
 import Api from "../../Api/Api";
+import { TaskFormData } from "../../interfaces/task-interface";
+import { showToast } from "../../utils/helpers";
 import { STORAGE, getData } from "../../utils/storage";
 import { taskActionTypes } from "../actionTypes/taskTypes";
 
 export const fetchTasks = () => async (dispatch: any) => {
   try {
-    console.log("first");
     dispatch({ type: taskActionTypes.FETCH_TASKS_LOADING });
     const token = await getData(STORAGE.accessToken);
-    console.log(token);
     const response = await Api.get("/tasks", {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -21,18 +21,37 @@ export const fetchTasks = () => async (dispatch: any) => {
       type: taskActionTypes.FETCH_TASKS_SUCCESS,
       payload: tasks,
     });
-    //   await storeData(STORAGE.accessToken, token);
-
-    //   callback();
   } catch (error) {
-    console.log(error);
-    //   dispatch({
-    //     type: userActionTypes.LOGIN_FAILURE,
-    //   });
-    //   showToast(
-    //     "error",
-    //     error.response.data.message,
-    //     error.response.data.error
-    //   );
+    dispatch({
+      type: taskActionTypes.FETCH_TASKS_FAILURE,
+    });
+    showToast("error", "Error Fetch !", "Error fetching data !");
   }
 };
+
+export const createTask =
+  (taskData: TaskFormData, callback: () => void) => async (dispatch: any) => {
+    try {
+      dispatch({ type: taskActionTypes.ADD_TASK_LOADING });
+      const token = await getData(STORAGE.accessToken);
+      const response = await Api.post("/tasks", taskData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+      const task = response.data.task;
+
+      dispatch({
+        type: taskActionTypes.ADD_TASK_SUCCESS,
+        payload: task,
+      });
+      callback();
+    } catch (error) {
+      dispatch({
+        type: taskActionTypes.ADD_TASK_FAILURE,
+      });
+      showToast("error", "Error Add !", "Error creating task !");
+    }
+  };
