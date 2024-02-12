@@ -58,9 +58,10 @@ export const createTask =
 
 export const markAsCompleted = (taskId: string) => async (dispatch: any) => {
   try {
-    // dispatch({ type: taskActionTypes.ADD_TASK_LOADING });
+    dispatch({ type: taskActionTypes.UPDATE_TASK_LOADING });
+
     const token = await getData(STORAGE.accessToken);
-    const response = await Api.put(`/tasks/${taskId}`, {
+    const response = await Api.put(`/tasks/markAsCompleted/${taskId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
@@ -69,22 +70,22 @@ export const markAsCompleted = (taskId: string) => async (dispatch: any) => {
     });
     const task = response.data.task;
     console.log(task);
-    // dispatch({
-    //   type: taskActionTypes.ADD_TASK_SUCCESS,
-    //   payload: task,
-    // });
+    dispatch({
+      type: taskActionTypes.UPDATE_TASK_SUCCESS,
+      payload: task,
+    });
   } catch (error) {
-    // dispatch({
-    //   type: taskActionTypes.ADD_TASK_FAILURE,
-    // });
-    showToast("error", "Error Update !", "Error updating task !");
+    dispatch({
+      type: taskActionTypes.UPDATE_TASK_FAILURE,
+    });
+    showToast("error", "Error Update status !", "Error updating status !");
   }
 };
 
 export const assignTaskToUser =
   (taskId: string, userId: number) => async (dispatch: any) => {
     try {
-      dispatch({ type: taskActionTypes.ASSIGN_TASK_LOADING });
+      dispatch({ type: taskActionTypes.UPDATE_TASK_LOADING });
       const token = await getData(STORAGE.accessToken);
       const response = await Api.put(
         `/tasks/assign/${taskId}`,
@@ -101,12 +102,12 @@ export const assignTaskToUser =
       );
       const task = response.data.task;
       dispatch({
-        type: taskActionTypes.ASSIGN_TASK_SUCCESS,
+        type: taskActionTypes.UPDATE_TASK_SUCCESS,
         payload: task,
       });
     } catch (error) {
       dispatch({
-        type: taskActionTypes.ASSIGN_TASK_FAILURE,
+        type: taskActionTypes.UPDATE_TASK_FAILURE,
       });
       showToast("error", "Error Assign task !", "Error assign task !");
     }
