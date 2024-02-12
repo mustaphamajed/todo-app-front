@@ -1,6 +1,7 @@
 import {
   ActivityIndicator,
   FlatList,
+  RefreshControl,
   StyleSheet,
   Text,
   View,
@@ -8,8 +9,14 @@ import {
 import React from "react";
 
 import { TaskCard } from "../cards";
+import { useAppDispatch } from "../../utils/helpers";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { fetchTasks } from "../../store/actions/taskActions";
 
 const TasksList = ({ tasks }: { tasks: any }) => {
+  const dispatch = useAppDispatch();
+  const { loadingFetch } = useSelector((state: RootState) => state.taskReducer);
   return (
     <>
       <FlatList
@@ -20,6 +27,14 @@ const TasksList = ({ tasks }: { tasks: any }) => {
         renderItem={({ item, index }) => {
           return <TaskCard item={item} />;
         }}
+        refreshControl={
+          <RefreshControl
+            refreshing={loadingFetch}
+            onRefresh={async () => {
+              dispatch(fetchTasks);
+            }}
+          />
+        }
       />
     </>
   );
