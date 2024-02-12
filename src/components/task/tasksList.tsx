@@ -9,12 +9,13 @@ import React from "react";
 
 import { TaskCard } from "../cards";
 
-const TasksList = ({ tasks, loading }: { tasks: any; loading: boolean }) => {
+const TasksList = ({ tasks }: { tasks: any }) => {
   return (
     <>
       <FlatList
         data={tasks}
         contentContainerStyle={{ flexGrow: 1 }}
+        showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.id}
         renderItem={({ item, index }) => {
           return <TaskCard item={item} />;
