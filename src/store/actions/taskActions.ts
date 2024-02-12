@@ -111,3 +111,31 @@ export const assignTaskToUser =
       showToast("error", "Error Assign task !", "Error assign task !");
     }
   };
+
+export const updateTask =
+  (taskData: TaskFormData, taskId: number, callback: () => void) =>
+  async (dispatch: any) => {
+    try {
+      dispatch({ type: taskActionTypes.UPDATE_TASK_LOADING });
+
+      const token = await getData(STORAGE.accessToken);
+      const response = await Api.put(`/tasks/${taskId}`, taskData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+      const task = response.data.task;
+      dispatch({
+        type: taskActionTypes.UPDATE_TASK_SUCCESS,
+        payload: task,
+      });
+      callback();
+    } catch (error) {
+      dispatch({
+        type: taskActionTypes.UPDATE_TASK_FAILURE,
+      });
+      showToast("error", "Error Update task !", "Error updating task !");
+    }
+  };

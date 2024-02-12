@@ -7,7 +7,11 @@ import { taskInput } from "../../utils/statics";
 import { CustomInput } from "../form";
 import commonStyles from "../../styles/commonStyles";
 import { useAppDispatch } from "../../utils/helpers";
-import { createTask, markAsCompleted } from "../../store/actions/taskActions";
+import {
+  createTask,
+  markAsCompleted,
+  updateTask,
+} from "../../store/actions/taskActions";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 
@@ -23,7 +27,9 @@ const formReducer = (state: TaskFormData, action: Action): TaskFormData => {
 
 const TaskForm = (props: FormBottomSheetProps) => {
   const dispatch = useAppDispatch();
-  const { loadingAdd } = useSelector((state: RootState) => state.taskReducer);
+  const { loadingAdd, loadingAssign } = useSelector(
+    (state: RootState) => state.taskReducer
+  );
   const { user } = useSelector((state: RootState) => state.userReducer);
   const [formData, formDispatch] = useReducer(formReducer, {
     title: props.task?.title ?? "",
@@ -73,11 +79,25 @@ const TaskForm = (props: FormBottomSheetProps) => {
   };
   const handleSubmit = () => {
     if (validateForm()) {
-      dispatch(
-        createTask(formData, () => {
-          props.setOpenBottomModal(false);
-        })
-      );
+      if (props.task) {
+        dispatch(
+          updateTask(formData, props.task.id, () => {
+            props.setOpenBottomModal(false);
+            formDispatch({ type: "title", payload: "" });
+            formDispatch({ type: "description", payload: "" });
+            setValidationErrors({});
+          })
+        );
+      } else {
+        dispatch(
+          createTask(formData, () => {
+            props.setOpenBottomModal(false);
+            formDispatch({ type: "title", payload: "" });
+            formDispatch({ type: "description", payload: "" });
+            setValidationErrors({});
+          })
+        );
+      }
     }
   };
   const markTaskAsCompleted = () => {
@@ -151,7 +171,7 @@ const TaskForm = (props: FormBottomSheetProps) => {
             onPress={handleSubmit}
             text="Confirm"
             fullWidth={false}
-            loading={loadingAdd}
+            loading={loadingAdd || loadingAssign}
           />
         </View>
       </View>

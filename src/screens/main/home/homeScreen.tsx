@@ -1,4 +1,12 @@
-import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Dimensions,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import { ScreenContainer, StatContainer } from "../../../components/shared";
 
@@ -12,7 +20,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { TasksList } from "../../../components/task";
 import { fetchAllUsers } from "../../../store/actions/userActions";
-
+import colors from "../../../styles/colors";
+const screenheight = Dimensions.get("screen").height;
 const HomeScreen = () => {
   const dispatch = useAppDispatch();
 
@@ -57,7 +66,41 @@ const HomeScreen = () => {
             <SortIcon />
           </Pressable>
         </View>
-        <TasksList tasks={tasks} loading={loading} />
+        <View style={{ height: screenheight * 0.55 }}>
+          {loading ? (
+            <View
+              style={[
+                commonStyles.h100,
+                commonStyles.alignCenter,
+                commonStyles.justifyCenter,
+              ]}
+            >
+              <ActivityIndicator size={20} color={colors.black} />
+            </View>
+          ) : (
+            <TasksList tasks={tasks} loading={loading} />
+          )}
+        </View>
+        <TouchableOpacity
+          style={[
+            commonStyles.br8,
+            commonStyles.alignCenter,
+            commonStyles.justifyCenter,
+            commonStyles.mt10,
+            { height: 40, borderWidth: 1, borderColor: "red" },
+          ]}
+        >
+          <Text
+            style={[
+              commonStyles.fs14,
+              commonStyles.textWhite,
+
+              { fontWeight: "500", color: "red" },
+            ]}
+          >
+            Logout
+          </Text>
+        </TouchableOpacity>
       </View>
       <SortBottomSheet
         openBottom={openSortModal}
