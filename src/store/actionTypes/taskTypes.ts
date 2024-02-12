@@ -6,6 +6,10 @@ export const ADD_TASK_LOADING = "ADD_TASK_LOADING";
 export const ADD_TASK_SUCCESS = "ADD_TASK_SUCCESS";
 export const ADD_TASK_FAILURE = "ADD_TASK_FAILURE";
 
+export const ASSIGN_TASK_LOADING = "ASSIGN_TASK_LOADING";
+export const ASSIGN_TASK_SUCCESS = "ASSIGN_TASK_SUCCESS";
+export const ASSIGN_TASK_FAILURE = "ASSIGN_TASK_FAILURE";
+
 export enum taskActionTypes {
   FETCH_TASKS_LOADING = "FETCH_TASKS_LOADING",
   FETCH_TASKS_SUCCESS = "FETCH_TASKS_SUCCESS",
@@ -13,6 +17,9 @@ export enum taskActionTypes {
   ADD_TASK_LOADING = "ADD_TASK_LOADING",
   ADD_TASK_SUCCESS = "ADD_TASK_SUCCESS",
   ADD_TASK_FAILURE = "ADD_TASK_FAILURE",
+  ASSIGN_TASK_LOADING = "ASSIGN_TASK_LOADING",
+  ASSIGN_TASK_SUCCESS = "ASSIGN_TASK_SUCCESS",
+  ASSIGN_TASK_FAILURE = "ASSIGN_TASK_FAILURE",
 }
 
 interface LoadingFetchAction {
@@ -41,10 +48,26 @@ interface AddFailedAction {
   type: typeof taskActionTypes.ADD_TASK_FAILURE;
 }
 
+interface AssignTaskLoading {
+  type: typeof taskActionTypes.ASSIGN_TASK_LOADING;
+}
+
+interface AssignTaskSuccess {
+  type: typeof taskActionTypes.ASSIGN_TASK_SUCCESS;
+  payload: any;
+}
+
+interface AssignTaskFailed {
+  type: typeof taskActionTypes.ASSIGN_TASK_FAILURE;
+}
+
 export type TaskActionTypes =
   | LoadingFetchAction
   | FetchSuccessAction
   | FetchFailedAction
   | LoadingAddAction
   | AddSuccessAction
-  | AddFailedAction;
+  | AddFailedAction
+  | AssignTaskLoading
+  | AssignTaskSuccess
+  | AssignTaskFailed;

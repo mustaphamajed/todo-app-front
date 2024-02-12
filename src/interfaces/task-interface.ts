@@ -1,6 +1,7 @@
 export interface TaskState {
   loadingFetch: boolean;
   loadingAdd: boolean;
+  loadingAssign: boolean;
   tasks: Object[] | [];
 }
 

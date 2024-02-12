@@ -3,6 +3,9 @@ import {
   ADD_TASK_FAILURE,
   ADD_TASK_LOADING,
   ADD_TASK_SUCCESS,
+  ASSIGN_TASK_FAILURE,
+  ASSIGN_TASK_LOADING,
+  ASSIGN_TASK_SUCCESS,
   FETCH_TASKS_FAILURE,
   FETCH_TASKS_LOADING,
   FETCH_TASKS_SUCCESS,
@@ -12,6 +15,7 @@ import {
 const initialState = {
   loadingFetch: false,
   loadingAdd: false,
+  loadingAssign: false,
   tasks: [],
 };
 
@@ -37,6 +41,19 @@ export const taskReducer = (
       };
     case ADD_TASK_FAILURE:
       return { ...state, loadingAdd: false };
+
+    case ASSIGN_TASK_LOADING:
+      return { ...state, loadingAssign: true };
+    case ASSIGN_TASK_SUCCESS:
+      return {
+        ...state,
+        loadingAssign: false,
+        tasks: state.tasks.map((task) =>
+          +task?.id === +action.payload?.id ? action.payload : task
+        ),
+      };
+    case ASSIGN_TASK_FAILURE:
+      return { ...state, loadingAssign: false };
 
     default:
       return state;
