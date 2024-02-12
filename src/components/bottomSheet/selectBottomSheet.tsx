@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CustomBottomSheet, CustomButton } from "../shared";
 import { SelectCard } from "../cards";
 import commonStyles from "../../styles/commonStyles";
@@ -8,11 +8,16 @@ interface SelectBottomSheetProps {
   openBottom: boolean;
   setOpenBottomModal: (value: boolean) => void;
   title: string;
-  data: { value: string; label: string }[] | [];
-  handleSubmit: () => void;
+  data: { value: number; label: string }[] | [];
+  handleSubmit: (selectedItem: number) => void;
+  selectedItem: number;
 }
 
 const SelectBottomSheet = (props: SelectBottomSheetProps) => {
+  const [selectedItem, setSelectedItem] = useState<number>(0);
+  useEffect(() => {
+    setSelectedItem(props.selectedItem);
+  }, [props.selectedItem]);
   return (
     <CustomBottomSheet
       openBottom={props.openBottom}
@@ -28,7 +33,8 @@ const SelectBottomSheet = (props: SelectBottomSheetProps) => {
               <SelectCard
                 key={value}
                 label={label}
-                isSelected={value === "1" ? true : false}
+                isSelected={value === selectedItem ? true : false}
+                onPress={() => setSelectedItem(value)}
               />
             );
           })}
@@ -49,7 +55,7 @@ const SelectBottomSheet = (props: SelectBottomSheetProps) => {
           />
           <CustomButton
             isPrimary={true}
-            onPress={props.handleSubmit}
+            onPress={() => props.handleSubmit(selectedItem)}
             text="Confirm"
             fullWidth={false}
             loading={false}

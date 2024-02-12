@@ -15,9 +15,7 @@ import { fetchAllUsers } from "../../../store/actions/userActions";
 
 const HomeScreen = () => {
   const dispatch = useAppDispatch();
-  const { loadingFetch, user } = useSelector(
-    (state: RootState) => state.userReducer
-  );
+
   const { loadingFetch: loading, tasks } = useSelector(
     (state: RootState) => state.taskReducer
   );
@@ -31,6 +29,7 @@ const HomeScreen = () => {
     initializeData();
   }, []);
 
+  console.log(tasks);
   return (
     <ScreenContainer>
       <HomeHeader />

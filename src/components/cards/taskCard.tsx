@@ -6,21 +6,33 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { SelectBottomSheet } from "../bottomSheet";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { mapUsersData } from "../../utils/helpers";
+import { mapUsersData, useAppDispatch } from "../../utils/helpers";
+import { assignTaskToUser } from "../../store/actions/taskActions";
 
 interface ModalData {
   title: string;
-  data: { label: string; value: string }[];
-  handleSubmit: () => void;
+  data: { label: string; value: number }[];
+  handleSubmit: (selectedItem: number) => void;
+  selectedItem: number;
 }
 const TaskCard = ({ item }: { item: any }) => {
+  const dispatch = useAppDispatch();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const { users } = useSelector((state: RootState) => state.userReducer);
   const [modalData, setModalData] = useState<ModalData>({
     title: "",
     data: [],
-    handleSubmit: () => {},
+    handleSubmit: (selectedItem: number) => {},
+    selectedItem: 0,
   });
+
+  const assignTask = (userId: number) => {
+    try {
+      dispatch(assignTaskToUser(item.id, userId));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <View
       style={[
@@ -55,6 +67,7 @@ const TaskCard = ({ item }: { item: any }) => {
               data: [],
               handleSubmit: () => console.log("first"),
               title: "Update Status",
+              selectedItem: 2,
             });
             setOpenModal(true);
           }}
@@ -88,14 +101,15 @@ const TaskCard = ({ item }: { item: any }) => {
         onPress={() => {
           setModalData({
             data: mapUsersData(users),
-            handleSubmit: () => console.log("first"),
+            handleSubmit: (selectedItem) => assignTask(selectedItem),
             title: "Select User",
+            selectedItem: item?.user_id ? Number(item?.user_id) : 0,
           });
           setOpenModal(true);
         }}
       >
         <Text style={[commonStyles.fs14, { color: "#CBD5E1" }]}>For </Text>
-        <View style={[commonStyles.w50]}>
+        <View style={[commonStyles.w50, commonStyles.row]}>
           <Text> {item?.user?.firstname} </Text>
           <Text>{item?.user?.name}</Text>
         </View>
@@ -103,9 +117,19 @@ const TaskCard = ({ item }: { item: any }) => {
       </Pressable>
       <SelectBottomSheet
         openBottom={openModal}
-        setOpenBottomModal={() => setOpenModal(false)}
+        setOpenBottomModal={() => {
+          setModalData({
+            title: "",
+            data: [],
+            handleSubmit: () => {},
+            selectedItem: 0,
+          });
+          setOpenModal(false);
+        }}
         title={modalData.title}
         data={modalData.data}
+        handleSubmit={modalData.handleSubmit}
+        selectedItem={modalData.selectedItem}
       />
     </View>
   );

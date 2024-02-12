@@ -6,9 +6,11 @@ import colors from "../../styles/colors";
 const SelectCard = ({
   label,
   isSelected,
+  onPress,
 }: {
   label: string;
   isSelected: boolean;
+  onPress: () => void;
 }) => {
   return (
     <Pressable
@@ -16,11 +18,14 @@ const SelectCard = ({
         commonStyles.p10,
         commonStyles.my10,
         commonStyles.br8,
+
         {
           borderWidth: 1,
-          borderColor: isSelected ? colors.blue : colors.black,
+          backgroundColor: "#E2E8F0",
+          borderColor: isSelected ? colors.blue : "#E2E8F0",
         },
       ]}
+      onPress={onPress}
     >
       <Text style={[commonStyles.fs16, { color: colors.black }]}>{label}</Text>
     </Pressable>
