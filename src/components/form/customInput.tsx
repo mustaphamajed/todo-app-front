@@ -58,6 +58,7 @@ const CustomInput = (props: InputProps) => {
       >
         <TextInput
           placeholder={props.placeholder}
+          defaultValue={props.formData[props.field]}
           placeholderTextColor={colors.gray}
           onChangeText={(v) => handleChange(v)}
           autoCapitalize="none"

@@ -29,7 +29,6 @@ const HomeScreen = () => {
     initializeData();
   }, []);
 
-  console.log(tasks);
   return (
     <ScreenContainer>
       <HomeHeader />

@@ -56,12 +56,12 @@ export const createTask =
     }
   };
 
-export const markAsCompleted = (taskId: string) => async (dispatch: any) => {
+export const markAsCompleted = (taskId: number) => async (dispatch: any) => {
   try {
     dispatch({ type: taskActionTypes.UPDATE_TASK_LOADING });
 
     const token = await getData(STORAGE.accessToken);
-    const response = await Api.put(`/tasks/markAsCompleted/${taskId}`, {
+    const response = await Api.put(`/tasks/markAsCompleted/${taskId}`, null, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
@@ -69,7 +69,6 @@ export const markAsCompleted = (taskId: string) => async (dispatch: any) => {
       },
     });
     const task = response.data.task;
-    console.log(task);
     dispatch({
       type: taskActionTypes.UPDATE_TASK_SUCCESS,
       payload: task,

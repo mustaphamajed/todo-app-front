@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
-import React, { useCallback, useReducer, useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useCallback, useEffect, useReducer, useState } from "react";
 import { CustomBottomSheet, CustomButton } from "../shared";
 import { TaskFormData } from "../../interfaces/task-interface";
 import { ValidationData } from "../../interfaces/user-interface";
@@ -7,13 +7,14 @@ import { taskInput } from "../../utils/statics";
 import { CustomInput } from "../form";
 import commonStyles from "../../styles/commonStyles";
 import { useAppDispatch } from "../../utils/helpers";
-import { createTask } from "../../store/actions/taskActions";
+import { createTask, markAsCompleted } from "../../store/actions/taskActions";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 
 interface FormBottomSheetProps {
   openBottom: boolean;
   setOpenBottomModal: (value: boolean) => void;
+  task?: any;
 }
 type Action = { type: string; payload: string };
 const formReducer = (state: TaskFormData, action: Action): TaskFormData => {
@@ -23,10 +24,12 @@ const formReducer = (state: TaskFormData, action: Action): TaskFormData => {
 const TaskForm = (props: FormBottomSheetProps) => {
   const dispatch = useAppDispatch();
   const { loadingAdd } = useSelector((state: RootState) => state.taskReducer);
+  const { user } = useSelector((state: RootState) => state.userReducer);
   const [formData, formDispatch] = useReducer(formReducer, {
-    title: "",
-    description: "",
+    title: props.task?.title ?? "",
+    description: props.task?.description ?? "",
   });
+
   const [validationErrors, setValidationErrors] = useState<ValidationData>({});
   const inputChangehandler = useCallback(
     (field: string, inputValue: string) => {
@@ -68,7 +71,6 @@ const TaskForm = (props: FormBottomSheetProps) => {
     setValidationErrors(errors as ValidationData);
     return Object.keys(errors).length === 0;
   };
-
   const handleSubmit = () => {
     if (validateForm()) {
       dispatch(
@@ -78,6 +80,9 @@ const TaskForm = (props: FormBottomSheetProps) => {
       );
     }
   };
+  const markTaskAsCompleted = () => {
+    dispatch(markAsCompleted(props.task.id));
+  };
   return (
     <CustomBottomSheet
       openBottom={props.openBottom}
@@ -85,7 +90,9 @@ const TaskForm = (props: FormBottomSheetProps) => {
     >
       <View style={[commonStyles.p20]}>
         <View style={[commonStyles.alignCenter, commonStyles.pb20]}>
-          <Text style={[commonStyles.fs20]}>New Task</Text>
+          <Text style={[commonStyles.fs20]}>
+            {props.task ? "Update" : "New"} Task
+          </Text>
         </View>
         {taskInput.map(({ field, id, label, placeholder, type, required }) => {
           return (
@@ -102,6 +109,29 @@ const TaskForm = (props: FormBottomSheetProps) => {
             />
           );
         })}
+        {props.task &&
+        +user?.id === +props.task?.user_id &&
+        props.task.status === "pending" ? (
+          <TouchableOpacity
+            style={[
+              commonStyles.br8,
+              commonStyles.alignCenter,
+              commonStyles.justifyCenter,
+              { height: 40, backgroundColor: "#008020" },
+            ]}
+            onPress={markTaskAsCompleted}
+          >
+            <Text
+              style={[
+                commonStyles.fs14,
+                commonStyles.textWhite,
+                { fontWeight: "500" },
+              ]}
+            >
+              Mark As Completed
+            </Text>
+          </TouchableOpacity>
+        ) : null}
         <View
           style={[
             commonStyles.justifyBetween,

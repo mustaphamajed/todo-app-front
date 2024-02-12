@@ -3,10 +3,14 @@ import React, { useState } from "react";
 import commonStyles from "../../styles/commonStyles";
 import colors from "../../styles/colors";
 import { MaterialIcons } from "@expo/vector-icons";
-import { SelectBottomSheet } from "../bottomSheet";
+import { SelectBottomSheet, TaskForm } from "../bottomSheet";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { mapUsersData, useAppDispatch } from "../../utils/helpers";
+import {
+  getStatusColor,
+  mapUsersData,
+  useAppDispatch,
+} from "../../utils/helpers";
 import { assignTaskToUser } from "../../store/actions/taskActions";
 
 interface ModalData {
@@ -18,6 +22,7 @@ interface ModalData {
 const TaskCard = ({ item }: { item: any }) => {
   const dispatch = useAppDispatch();
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openFormModal, setOpenFormModal] = useState<boolean>(false);
   const { users } = useSelector((state: RootState) => state.userReducer);
   const [modalData, setModalData] = useState<ModalData>({
     title: "",
@@ -27,29 +32,31 @@ const TaskCard = ({ item }: { item: any }) => {
   });
 
   const assignTask = (userId: number) => {
-    try {
-      dispatch(assignTaskToUser(item.id, userId));
-      setOpenModal(false);
-      setModalData({
-        title: "",
-        data: [],
-        handleSubmit: (selectedItem: number) => {},
-        selectedItem: 0,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(assignTaskToUser(item.id, userId));
+    setOpenModal(false);
+    setModalData({
+      title: "",
+      data: [],
+      handleSubmit: (selectedItem: number) => {},
+      selectedItem: 0,
+    });
   };
+
   return (
-    <View
+    <Pressable
       style={[
         commonStyles.p20,
         commonStyles.mx10,
         commonStyles.my10,
         commonStyles.br10,
         commonStyles.bgWhite,
-        { elevation: 5, borderLeftWidth: 3, borderLeftColor: colors.blue },
+        {
+          elevation: 5,
+          borderLeftWidth: 3,
+          borderLeftColor: getStatusColor(item.status),
+        },
       ]}
+      onPress={() => setOpenFormModal(true)}
     >
       <View
         style={[
@@ -84,7 +91,7 @@ const TaskCard = ({ item }: { item: any }) => {
               width: 7,
               height: 7,
               borderRadius: 50,
-              backgroundColor: colors.blue,
+              backgroundColor: getStatusColor(item.status),
               marginRight: 5,
             }}
           />
@@ -138,7 +145,12 @@ const TaskCard = ({ item }: { item: any }) => {
         handleSubmit={modalData.handleSubmit}
         selectedItem={modalData.selectedItem}
       />
-    </View>
+      <TaskForm
+        openBottom={openFormModal}
+        setOpenBottomModal={() => setOpenFormModal(false)}
+        task={item}
+      />
+    </Pressable>
   );
 };
 
