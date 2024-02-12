@@ -29,6 +29,13 @@ const TaskCard = ({ item }: { item: any }) => {
   const assignTask = (userId: number) => {
     try {
       dispatch(assignTaskToUser(item.id, userId));
+      setOpenModal(false);
+      setModalData({
+        title: "",
+        data: [],
+        handleSubmit: (selectedItem: number) => {},
+        selectedItem: 0,
+      });
     } catch (error) {
       console.log(error);
     }

@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { CustomBottomSheet, CustomButton } from "../shared";
 import { SelectCard } from "../cards";
 import commonStyles from "../../styles/commonStyles";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 interface SelectBottomSheetProps {
   openBottom: boolean;
@@ -14,6 +16,9 @@ interface SelectBottomSheetProps {
 }
 
 const SelectBottomSheet = (props: SelectBottomSheetProps) => {
+  const { loadingAssign } = useSelector(
+    (state: RootState) => state.taskReducer
+  );
   const [selectedItem, setSelectedItem] = useState<number>(0);
   useEffect(() => {
     setSelectedItem(props.selectedItem);
@@ -58,7 +63,7 @@ const SelectBottomSheet = (props: SelectBottomSheetProps) => {
             onPress={() => props.handleSubmit(selectedItem)}
             text="Confirm"
             fullWidth={false}
-            loading={false}
+            loading={loadingAssign}
           />
         </View>
       </View>
