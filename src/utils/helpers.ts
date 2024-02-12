@@ -29,3 +29,16 @@ export const mapUsersData = (users: any) => {
     label: user.firstname + " " + user.name,
   }));
 };
+
+export const getStatusColor = (status: string): string => {
+  switch (status) {
+    case "active":
+      return "blue";
+    case "pending":
+      return "#FFA500";
+    case "completed":
+      return "green";
+    default:
+      return "gray";
+  }
+};
