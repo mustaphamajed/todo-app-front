@@ -93,3 +93,27 @@ export const fetchAllUsers = () => async (dispatch: any) => {
     showToast("error", "Error Fetching !", "Error fetching users !");
   }
 };
+
+export const fetchStatisctics = () => async (dispatch: any) => {
+  try {
+    const token = await getData(STORAGE.accessToken);
+    dispatch({ type: userActionTypes.FETCH_STATISTICS_SUCCESS });
+    const response = await Api.get("/statistics?timeframe=weekly", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    const statistics = response.data;
+    dispatch({
+      type: userActionTypes.FETCH_STATISTICS_SUCCESS,
+      payload: statistics,
+    });
+  } catch (error) {
+    dispatch({
+      type: userActionTypes.FETCH_STATISTICS_FAILURE,
+    });
+    showToast("error", "Error Fetching !", "Error fetching statistics !");
+  }
+};

@@ -14,6 +14,10 @@ export const FETCH_USERS_LOADING = "FETCH_USERS_LOADING";
 export const FETCH_USERS_SUCCESS = "FETCH_USERS_SUCCESS";
 export const FETCH_USERS_FAILURE = "FETCH_USERS_FAILURE";
 
+export const FETCH_STATISTICS_LOADING = "FETCH_STATISTICS_LOADING";
+export const FETCH_STATISTICS_SUCCESS = "FETCH_STATISTICS_SUCCESS";
+export const FETCH_STATISTICS_FAILURE = "FETCH_STATISTICS_FAILURE";
+
 export enum userActionTypes {
   REGISTER_LOADING = "REGISTER_LOADING",
   REGISTER_SUCCESS = "REGISTER_SUCCESS",
@@ -27,6 +31,9 @@ export enum userActionTypes {
   FETCH_USERS_LOADING = "FETCH_USERS_LOADING",
   FETCH_USERS_SUCCESS = "FETCH_USERS_SUCCESS",
   FETCH_USERS_FAILURE = "FETCH_USERS_FAILURE",
+  FETCH_STATISTICS_LOADING = "FETCH_STATISTICS_LOADING",
+  FETCH_STATISTICS_SUCCESS = "FETCH_STATISTICS_SUCCESS",
+  FETCH_STATISTICS_FAILURE = "FETCH_STATISTICS_FAILURE",
 }
 
 interface LoadingRegisterAction {
@@ -81,6 +88,19 @@ interface FetchUsersFailed {
   type: typeof userActionTypes.FETCH_USERS_FAILURE;
 }
 
+interface FetchStatsLoading {
+  type: typeof userActionTypes.FETCH_STATISTICS_LOADING;
+}
+
+interface FetchStatsSuccess {
+  type: typeof userActionTypes.FETCH_STATISTICS_SUCCESS;
+  payload: any;
+}
+
+interface FetchStatsFailed {
+  type: typeof userActionTypes.FETCH_STATISTICS_FAILURE;
+}
+
 export type UserActionTypes =
   | LoadingRegisterAction
   | RegisterSuccessAction
@@ -93,4 +113,7 @@ export type UserActionTypes =
   | FetchFailedAction
   | FetchUsersLoading
   | FetchUsersSuccess
-  | FetchUsersFailed;
+  | FetchUsersFailed
+  | FetchStatsLoading
+  | FetchStatsSuccess
+  | FetchStatsFailed;

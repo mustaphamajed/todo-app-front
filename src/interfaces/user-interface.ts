@@ -10,8 +10,10 @@ export interface UserState {
   loadingRegister: boolean;
   loadingLogin: boolean;
   loadingFetchAll: boolean;
+  loadingFetchStats: boolean;
   loadingFetch: boolean;
   user: Object | null;
+  statistics: Object | null;
   error: Object | null;
   users: Object[] | [];
 }

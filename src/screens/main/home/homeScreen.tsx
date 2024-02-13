@@ -19,7 +19,10 @@ import { fetchTasks } from "../../../store/actions/taskActions";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { TasksList } from "../../../components/task";
-import { fetchAllUsers } from "../../../store/actions/userActions";
+import {
+  fetchAllUsers,
+  fetchStatisctics,
+} from "../../../store/actions/userActions";
 import colors from "../../../styles/colors";
 const screenheight = Dimensions.get("screen").height;
 const HomeScreen = () => {
@@ -32,6 +35,7 @@ const HomeScreen = () => {
 
   const getAllUsers = useCallback(() => {
     dispatch(fetchAllUsers());
+    dispatch(fetchStatisctics());
   }, []);
   const initializeData = useCallback(() => {
     dispatch(fetchTasks(sortBy));

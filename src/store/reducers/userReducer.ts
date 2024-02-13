@@ -1,5 +1,8 @@
 import { UserState } from "../../interfaces/user-interface";
 import {
+  FETCH_STATISTICS_FAILURE,
+  FETCH_STATISTICS_LOADING,
+  FETCH_STATISTICS_SUCCESS,
   FETCH_USERS_FAILURE,
   FETCH_USERS_LOADING,
   FETCH_USERS_SUCCESS,
@@ -20,7 +23,9 @@ const initialState = {
   loadingLogin: false,
   loadingFetch: false,
   loadingFetchAll: false,
+  loadingFetchStats: false,
   user: null,
+  statistics: null,
   error: null,
   users: [],
 };
@@ -69,6 +74,15 @@ export const userReducer = (
         loadingFetchAll: false,
       };
 
+    case FETCH_STATISTICS_LOADING:
+      return { ...state, loadingFetchStats: true };
+    case FETCH_STATISTICS_SUCCESS:
+      return { ...state, loadingFetchStats: false, statistics: action.payload };
+    case FETCH_STATISTICS_FAILURE:
+      return {
+        ...state,
+        loadingFetchStats: false,
+      };
     default:
       return state;
   }
