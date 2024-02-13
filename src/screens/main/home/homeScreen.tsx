@@ -28,15 +28,21 @@ const screenheight = Dimensions.get("screen").height;
 const HomeScreen = () => {
   const dispatch = useAppDispatch();
   const [sortBy, setSortBy] = useState<string>("created_at");
+  const [timeFrame, setTimeFrame] = useState<string>("daily");
   const { loadingFetch: loading, tasks } = useSelector(
     (state: RootState) => state.taskReducer
+  );
+  const { loadingFetchStats, statistics } = useSelector(
+    (state: RootState) => state.userReducer
   );
   const [openSortModal, setOpenSortModal] = useState<boolean>(false);
 
   const getAllUsers = useCallback(() => {
     dispatch(fetchAllUsers());
-    dispatch(fetchStatisctics());
   }, []);
+  const getStats = useCallback(() => {
+    dispatch(fetchStatisctics(timeFrame));
+  }, [timeFrame, tasks]);
   const initializeData = useCallback(() => {
     dispatch(fetchTasks(sortBy));
   }, [sortBy]);
@@ -46,7 +52,9 @@ const HomeScreen = () => {
   useEffect(() => {
     initializeData();
   }, [initializeData]);
-
+  useEffect(() => {
+    getStats();
+  }, [getStats]);
   return (
     <ScreenContainer>
       <HomeHeader />
@@ -58,7 +66,11 @@ const HomeScreen = () => {
           top: 100,
         }}
       >
-        <StatContainer />
+        <StatContainer
+          statistics={statistics}
+          setTimeFrame={(value) => setTimeFrame(value)}
+          timeFrame={timeFrame}
+        />
         <View
           style={[
             commonStyles.row,

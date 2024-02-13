@@ -42,3 +42,9 @@ export const getStatusColor = (status: string): string => {
       return "gray";
   }
 };
+
+export const timeframeData = [
+  { id: 1, label: "Daily", value: "daily" },
+  { id: 2, label: "Weekly", value: "weekly" },
+  { id: 3, label: "Monthly", value: "monthly" },
+];
