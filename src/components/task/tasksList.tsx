@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { fetchTasks } from "../../store/actions/taskActions";
 
-const TasksList = ({ tasks }: { tasks: any }) => {
+const TasksList = ({ tasks, sortBy }: { tasks: any; sortBy: string }) => {
   const dispatch = useAppDispatch();
   const { loadingFetch } = useSelector((state: RootState) => state.taskReducer);
   return (
@@ -31,7 +31,7 @@ const TasksList = ({ tasks }: { tasks: any }) => {
           <RefreshControl
             refreshing={loadingFetch}
             onRefresh={async () => {
-              dispatch(fetchTasks);
+              dispatch(fetchTasks(sortBy));
             }}
           />
         }

@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
 import { CustomBottomSheet, CustomButton } from "../shared";
 import commonStyles from "../../styles/commonStyles";
 import { RadioButton } from "../form";
@@ -7,13 +7,17 @@ import { RadioButton } from "../form";
 interface SortBottomSheetProps {
   openBottom: boolean;
   setOpenBottomModal: (value: boolean) => void;
+  setSortBy: (value: string) => void;
+  sortBy: string;
 }
 
 const SortBottomSheet = (props: SortBottomSheetProps) => {
-  const sort = [
-    { id: 1, label: "Name", value: "name" },
-    { id: 2, label: "Status", value: "status" },
-    { id: 3, label: "Received", value: "received" },
+  const [sort, setSort] = useState<string>(props.sortBy);
+  const sortList = [
+    { id: 1, label: "Created At", value: "created_at" },
+    { id: 2, label: "Name", value: "user_name" },
+    { id: 3, label: "Status", value: "status" },
+    { id: 4, label: "Received", value: "received" },
   ];
   return (
     <CustomBottomSheet
@@ -23,19 +27,20 @@ const SortBottomSheet = (props: SortBottomSheetProps) => {
       <View style={[commonStyles.p20]}>
         <Text>Sort By:</Text>
         <View style={[commonStyles.mt20]}>
-          {sort.map(({ id, label, value }) => {
+          {sortList.map(({ id, label, value }) => {
             return (
-              <View
+              <Pressable
                 key={id}
                 style={[
                   commonStyles.row,
                   commonStyles.justifyBetween,
                   commonStyles.my10,
                 ]}
+                onPress={() => setSort(value)}
               >
                 <Text>{label}</Text>
-                <RadioButton isChecked={value === "name"} />
-              </View>
+                <RadioButton isChecked={value === sort} />
+              </Pressable>
             );
           })}
         </View>
@@ -55,7 +60,7 @@ const SortBottomSheet = (props: SortBottomSheetProps) => {
           />
           <CustomButton
             isPrimary={true}
-            onPress={() => console.log("first")}
+            onPress={() => props.setSortBy(sort)}
             text="Confirm"
             fullWidth={false}
             loading={false}

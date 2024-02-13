@@ -24,19 +24,24 @@ import colors from "../../../styles/colors";
 const screenheight = Dimensions.get("screen").height;
 const HomeScreen = () => {
   const dispatch = useAppDispatch();
-
+  const [sortBy, setSortBy] = useState<string>("created_at");
   const { loadingFetch: loading, tasks } = useSelector(
     (state: RootState) => state.taskReducer
   );
   const [openSortModal, setOpenSortModal] = useState<boolean>(false);
 
-  const initializeData = useCallback(() => {
+  const getAllUsers = useCallback(() => {
     dispatch(fetchAllUsers());
-    dispatch(fetchTasks());
   }, []);
+  const initializeData = useCallback(() => {
+    dispatch(fetchTasks(sortBy));
+  }, [sortBy]);
+  useEffect(() => {
+    getAllUsers();
+  }, [getAllUsers]);
   useEffect(() => {
     initializeData();
-  }, []);
+  }, [initializeData]);
 
   return (
     <ScreenContainer>
@@ -78,7 +83,7 @@ const HomeScreen = () => {
               <ActivityIndicator size={20} color={colors.black} />
             </View>
           ) : (
-            <TasksList tasks={tasks} loading={loading} />
+            <TasksList tasks={tasks} sortBy={sortBy} />
           )}
         </View>
         <TouchableOpacity
@@ -105,6 +110,11 @@ const HomeScreen = () => {
       <SortBottomSheet
         openBottom={openSortModal}
         setOpenBottomModal={() => setOpenSortModal(false)}
+        sortBy={sortBy}
+        setSortBy={(value) => {
+          setOpenSortModal(false);
+          setSortBy(value);
+        }}
       />
     </ScreenContainer>
   );

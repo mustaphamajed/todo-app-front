@@ -4,11 +4,11 @@ import { showToast } from "../../utils/helpers";
 import { STORAGE, getData } from "../../utils/storage";
 import { taskActionTypes } from "../actionTypes/taskTypes";
 
-export const fetchTasks = () => async (dispatch: any) => {
+export const fetchTasks = (sort: string) => async (dispatch: any) => {
   try {
     dispatch({ type: taskActionTypes.FETCH_TASKS_LOADING });
     const token = await getData(STORAGE.accessToken);
-    const response = await Api.get("/tasks", {
+    const response = await Api.get(`/tasks?sort=${sort}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
@@ -16,12 +16,12 @@ export const fetchTasks = () => async (dispatch: any) => {
       },
     });
     const tasks = response.data.tasks;
-
     dispatch({
       type: taskActionTypes.FETCH_TASKS_SUCCESS,
       payload: tasks,
     });
   } catch (error) {
+    console.log(JSON.stringify(error));
     dispatch({
       type: taskActionTypes.FETCH_TASKS_FAILURE,
     });
