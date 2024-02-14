@@ -8,9 +8,9 @@
 
 - `cd todo-app-front`
 
-- Edit `endPoint.ts` and set your ip adress it should be the same as the backend 
-
 - `npm install`
+
+- Edit `endPoint.ts` and set your ip adress it should be the same as the backend 
 
 - `npm start`  
 
