@@ -362,6 +362,9 @@ export default StyleSheet.create({
   fs20: {
     fontSize: 20,
   },
+  fs22: {
+    fontSize: 22,
+  },
   fs24: {
     fontSize: 24,
   },

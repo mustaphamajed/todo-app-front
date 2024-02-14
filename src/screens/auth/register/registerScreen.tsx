@@ -114,8 +114,8 @@ const RegisterScreen = () => {
             phone: formData.phone,
           },
           () => {
-            navigation.navigate(ROUTE_NAMES.STACK.MAIN, {
-              screen: ROUTE_NAMES.MAIN_STACK.HOME,
+            navigation.navigate(ROUTE_NAMES.STACK.AUTH, {
+              screen: ROUTE_NAMES.AUTH_STACK.LOGIN,
             });
           }
         )

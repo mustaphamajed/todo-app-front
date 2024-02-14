@@ -69,6 +69,7 @@ const TaskCard = ({ item }: { item: any }) => {
         <Text
           style={[
             commonStyles.fs12,
+            commonStyles.textRegular,
             { color: "#CBD5E1", textTransform: "uppercase" },
           ]}
         >
@@ -98,6 +99,7 @@ const TaskCard = ({ item }: { item: any }) => {
           <Text
             style={[
               commonStyles.fs12,
+              commonStyles.textMedium,
               { color: "#64748B", textTransform: "uppercase" },
             ]}
           >
@@ -106,29 +108,64 @@ const TaskCard = ({ item }: { item: any }) => {
         </Pressable>
       </View>
       <View style={[commonStyles.pb10]}>
-        <Text style={[commonStyles.fs16, { color: "#334155" }]}>
+        <Text
+          style={[
+            commonStyles.fs16,
+            commonStyles.textMedium,
+            { color: "#334155" },
+          ]}
+        >
           {item?.description}
         </Text>
       </View>
-      <Pressable
-        style={[commonStyles.row, commonStyles.alignCenter]}
-        onPress={() => {
-          setModalData({
-            data: mapUsersData(users),
-            handleSubmit: (selectedItem) => assignTask(selectedItem),
-            title: "Select User",
-            selectedItem: item?.user_id ? Number(item?.user_id) : 0,
-          });
-          setOpenModal(true);
-        }}
+      <View
+        style={[
+          commonStyles.row,
+          commonStyles.alignCenter,
+          commonStyles.justifyBetween,
+        ]}
       >
-        <Text style={[commonStyles.fs14, { color: "#CBD5E1" }]}>For </Text>
-        <View style={[commonStyles.w50, commonStyles.row]}>
-          <Text> {item?.user?.firstname} </Text>
-          <Text>{item?.user?.name}</Text>
-        </View>
-        <MaterialIcons name="arrow-drop-down" size={24} color="black" />
-      </Pressable>
+        <Pressable
+          style={[
+            commonStyles.row,
+            commonStyles.alignCenter,
+            commonStyles.justifyBetween,
+            { width: "60%" },
+          ]}
+          onPress={() => {
+            setModalData({
+              data: mapUsersData(users),
+              handleSubmit: (selectedItem) => assignTask(selectedItem),
+              title: "Select User",
+              selectedItem: item?.user_id ? Number(item?.user_id) : 0,
+            });
+            setOpenModal(true);
+          }}
+        >
+          <Text
+            style={[
+              commonStyles.fs14,
+              commonStyles.textRegular,
+              { color: "#CBD5E1" },
+            ]}
+          >
+            For{" "}
+          </Text>
+          <View
+            style={[
+              commonStyles.w50,
+              commonStyles.row,
+              commonStyles.alignCenter,
+            ]}
+          >
+            <Text> {item?.user?.firstname} </Text>
+            <Text>{item?.user?.name}</Text>
+          </View>
+          <MaterialIcons name="arrow-drop-down" size={24} color="black" />
+        </Pressable>
+        <Text>dd</Text>
+      </View>
+
       <SelectBottomSheet
         openBottom={openModal}
         setOpenBottomModal={() => {

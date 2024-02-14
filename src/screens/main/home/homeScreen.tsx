@@ -78,16 +78,33 @@ const HomeScreen = () => {
             commonStyles.py20,
           ]}
         >
-          <Text>Due today</Text>
+          <Text
+            style={[
+              commonStyles.fs14,
+              commonStyles.textMedium,
+              { color: "#64748B" },
+            ]}
+          >
+            Due today
+          </Text>
           <Pressable
             style={[commonStyles.row, commonStyles.alignCenter]}
             onPress={() => setOpenSortModal(true)}
           >
-            <Text style={[commonStyles.pr10]}>Sort By</Text>
+            <Text
+              style={[
+                commonStyles.fs12,
+                commonStyles.textMedium,
+                commonStyles.pr10,
+                { color: "#64748B" },
+              ]}
+            >
+              Sort By
+            </Text>
             <SortIcon />
           </Pressable>
         </View>
-        <View style={{ height: screenheight * 0.55 }}>
+        <View style={{ height: screenheight * 0.5 }}>
           {loading ? (
             <View
               style={[

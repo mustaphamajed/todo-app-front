@@ -54,7 +54,9 @@ const StatContainer = ({
         ]}
         onPress={() => setOpenBottomModal(true)}
       >
-        <Text>{timeframeData.find((el) => el.value === timeFrame)?.label}</Text>
+        <Text style={[commonStyles.textMedium, commonStyles.fs14]}>
+          {timeframeData.find((el) => el.value === timeFrame)?.label}
+        </Text>
         <MaterialIcons name="arrow-drop-down" size={24} color="black" />
       </Pressable>
       <View style={[commonStyles.row, commonStyles.justifyAround]}>
