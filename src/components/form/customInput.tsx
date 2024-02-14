@@ -39,7 +39,11 @@ const CustomInput = (props: InputProps) => {
   return (
     <View style={[commonStyles.mb20]}>
       <View style={[commonStyles.pb10, commonStyles.row]}>
-        <Text style={[styles.label, commonStyles.fs14]}>{props.label}</Text>
+        <Text
+          style={[styles.label, commonStyles.fs14, commonStyles.textMedium]}
+        >
+          {props.label}
+        </Text>
         {props.required && (
           <Text style={{ color: "red", marginLeft: 5 }}>*</Text>
         )}
@@ -82,7 +86,13 @@ const CustomInput = (props: InputProps) => {
         )}
       </View>
       {props.validationError && (
-        <Text style={[commonStyles.fs14, { color: "red", padding: 5 }]}>
+        <Text
+          style={[
+            commonStyles.fs14,
+            commonStyles.textMedium,
+            { color: "red", padding: 5 },
+          ]}
+        >
           {props.validationError}
         </Text>
       )}

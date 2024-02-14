@@ -103,7 +103,14 @@ const LoginScreen = () => {
         style={[commonStyles.flex1, commonStyles.justifyCenter]}
         resizeMode="cover"
       >
-        <View style={[commonStyles.flex1, commonStyles.p20, commonStyles.w100]}>
+        <View
+          style={[
+            commonStyles.flex1,
+            commonStyles.p20,
+            commonStyles.w100,
+            commonStyles.justifyCenter,
+          ]}
+        >
           <Image
             source={require("../../../../assets/logo.png")}
             style={styles.logo}
@@ -125,7 +132,16 @@ const LoginScreen = () => {
           })}
 
           <View style={{ alignSelf: "flex-end" }}>
-            <Text> Forgot Your Password?</Text>
+            <Text
+              style={[
+                commonStyles.textMedium,
+                commonStyles.fs12,
+                { textDecorationLine: "underline" },
+              ]}
+            >
+              {" "}
+              Forgot Your Password?
+            </Text>
           </View>
           <CustomButton
             text="Login"
@@ -143,7 +159,15 @@ const LoginScreen = () => {
             }}
             isPrimary={false}
           />
-
+          <View style={styles.lineContainer}>
+            <View style={styles.line} />
+            <Text
+              style={[styles.orText, commonStyles.fs12, commonStyles.textBold]}
+            >
+              Or login with
+            </Text>
+            <View style={styles.line} />
+          </View>
           <View
             style={[
               commonStyles.row,
@@ -172,5 +196,21 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     alignSelf: "center",
+  },
+  lineContainer: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 30,
+  },
+  line: {
+    borderBottomWidth: 2,
+    borderColor: "#E8ECF4",
+    flex: 1,
+  },
+  orText: {
+    marginHorizontal: 10,
+    color: "#6A707C",
   },
 });

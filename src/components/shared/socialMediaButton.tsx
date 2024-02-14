@@ -23,7 +23,12 @@ const SocialMediaButton = (props: SocialMediaButtonProps) => {
     >
       {props.logo}
       <Text
-        style={[commonStyles.textBlack, commonStyles.fs14, commonStyles.pl10]}
+        style={[
+          commonStyles.textBlack,
+          commonStyles.fs14,
+          commonStyles.pl10,
+          commonStyles.textMedium,
+        ]}
       >
         {props.text}
       </Text>

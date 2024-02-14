@@ -41,6 +41,7 @@ const CustomButton = (props: ButtonProps) => {
           style={[
             commonStyles.fs14,
             props.isPrimary ? commonStyles.textWhite : commonStyles.textBlack,
+            commonStyles.textMedium,
             { fontWeight: "500" },
           ]}
         >
