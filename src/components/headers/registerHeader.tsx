@@ -19,7 +19,14 @@ const RegisterHeader = ({ onPress }: { onPress: () => void }) => {
     >
       <WhiteAppLogo />
       <Text
-        style={[commonStyles.textWhite, commonStyles.fs20, commonStyles.pt10]}
+        style={[
+          commonStyles.textWhite,
+          commonStyles.fs20,
+          commonStyles.pt10,
+          commonStyles.textBold,
+          commonStyles.lineHeight20,
+          { textTransform: "uppercase" },
+        ]}
       >
         Create an account
       </Text>
