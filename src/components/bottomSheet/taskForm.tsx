@@ -108,10 +108,10 @@ const TaskForm = (props: FormBottomSheetProps) => {
       openBottom={props.openBottom}
       setOpenBottomModal={props.setOpenBottomModal}
     >
-      <View style={[commonStyles.p20]}>
-        <View style={[commonStyles.alignCenter, commonStyles.pb20]}>
-          <Text style={[commonStyles.fs20]}>
-            {props.task ? "Update" : "New"} Task
+      <View style={[commonStyles.px20]}>
+        <View style={[commonStyles.pb20]}>
+          <Text style={[commonStyles.fs20, commonStyles.textBold]}>
+            {props.task ? "Update" : "New"} Task :
           </Text>
         </View>
         {taskInput.map(({ field, id, label, placeholder, type, required }) => {
@@ -130,7 +130,7 @@ const TaskForm = (props: FormBottomSheetProps) => {
           );
         })}
         {props.task &&
-        +user?.id === +props.task?.user_id &&
+        +user?.user?.id === +props.task?.user_id &&
         props.task.status === "pending" ? (
           <TouchableOpacity
             style={[

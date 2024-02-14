@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: 30,
+    marginVertical: 10,
   },
   line: {
     borderBottomWidth: 2,

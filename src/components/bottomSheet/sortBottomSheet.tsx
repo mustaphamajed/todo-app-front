@@ -25,7 +25,7 @@ const SortBottomSheet = (props: SortBottomSheetProps) => {
       setOpenBottomModal={props.setOpenBottomModal}
     >
       <View style={[commonStyles.p20]}>
-        <Text>Sort By:</Text>
+        <Text style={[commonStyles.fs18, commonStyles.textBold]}>Sort By:</Text>
         <View style={[commonStyles.mt20]}>
           {sortList.map(({ id, label, value }) => {
             return (
@@ -33,12 +33,15 @@ const SortBottomSheet = (props: SortBottomSheetProps) => {
                 key={id}
                 style={[
                   commonStyles.row,
+                  commonStyles.w100,
                   commonStyles.justifyBetween,
                   commonStyles.my10,
                 ]}
                 onPress={() => setSort(value)}
               >
-                <Text>{label}</Text>
+                <Text style={[commonStyles.fs16, commonStyles.textMedium]}>
+                  {label}
+                </Text>
                 <RadioButton isChecked={value === sort} />
               </Pressable>
             );

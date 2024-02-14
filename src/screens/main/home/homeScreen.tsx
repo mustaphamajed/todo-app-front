@@ -24,9 +24,14 @@ import {
   fetchStatisctics,
 } from "../../../store/actions/userActions";
 import colors from "../../../styles/colors";
+import { STORAGE, deleteData } from "../../../utils/storage";
+import { useNavigation } from "@react-navigation/native";
+import { NavigationRoot } from "../../../interfaces/navigation-interface";
+import { ROUTE_NAMES } from "../../../utils/routes";
 const screenheight = Dimensions.get("screen").height;
 const HomeScreen = () => {
   const dispatch = useAppDispatch();
+  const navigation = useNavigation<NavigationRoot>();
   const [sortBy, setSortBy] = useState<string>("created_at");
   const [timeFrame, setTimeFrame] = useState<string>("daily");
   const { loadingFetch: loading, tasks } = useSelector(
@@ -55,6 +60,13 @@ const HomeScreen = () => {
   useEffect(() => {
     getStats();
   }, [getStats]);
+
+  const handleLogout = async () => {
+    await deleteData(STORAGE.accessToken);
+    navigation.navigate(ROUTE_NAMES.STACK.AUTH, {
+      screen: ROUTE_NAMES.AUTH_STACK.LOGIN,
+    });
+  };
   return (
     <ScreenContainer>
       <HomeHeader />
@@ -127,6 +139,7 @@ const HomeScreen = () => {
             commonStyles.mt10,
             { height: 40, borderWidth: 1, borderColor: "red" },
           ]}
+          onPress={handleLogout}
         >
           <Text
             style={[

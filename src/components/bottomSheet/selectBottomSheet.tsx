@@ -28,11 +28,13 @@ const SelectBottomSheet = (props: SelectBottomSheetProps) => {
       openBottom={props.openBottom}
       setOpenBottomModal={props.setOpenBottomModal}
     >
-      <View style={[commonStyles.p20]}>
-        <View style={[commonStyles.alignCenter, commonStyles.pb20]}>
-          <Text style={[commonStyles.fs20]}>{props.title}</Text>
-        </View>
-        <ScrollView>
+      <View style={[commonStyles.alignCenter, commonStyles.pb20]}>
+        <Text style={[commonStyles.fs20, commonStyles.textBold]}>
+          {props.title}
+        </Text>
+      </View>
+      <ScrollView>
+        <View style={[commonStyles.px20]}>
           {props.data.map(({ label, value }) => {
             return (
               <SelectCard
@@ -43,29 +45,31 @@ const SelectBottomSheet = (props: SelectBottomSheetProps) => {
               />
             );
           })}
-        </ScrollView>
-        <View
-          style={[
-            commonStyles.justifyBetween,
-            commonStyles.row,
-            commonStyles.mt20,
-          ]}
-        >
-          <CustomButton
-            isPrimary={false}
-            onPress={() => props.setOpenBottomModal(false)}
-            text="Cancel"
-            fullWidth={false}
-            loading={false}
-          />
-          <CustomButton
-            isPrimary={true}
-            onPress={() => props.handleSubmit(selectedItem)}
-            text="Confirm"
-            fullWidth={false}
-            loading={loadingAssign}
-          />
         </View>
+      </ScrollView>
+
+      <View
+        style={[
+          commonStyles.justifyBetween,
+          commonStyles.row,
+          commonStyles.mt20,
+          commonStyles.px20,
+        ]}
+      >
+        <CustomButton
+          isPrimary={false}
+          onPress={() => props.setOpenBottomModal(false)}
+          text="Cancel"
+          fullWidth={false}
+          loading={false}
+        />
+        <CustomButton
+          isPrimary={true}
+          onPress={() => props.handleSubmit(selectedItem)}
+          text="Confirm"
+          fullWidth={false}
+          loading={loadingAssign}
+        />
       </View>
     </CustomBottomSheet>
   );

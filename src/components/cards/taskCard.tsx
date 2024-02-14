@@ -12,6 +12,7 @@ import {
   useAppDispatch,
 } from "../../utils/helpers";
 import { assignTaskToUser } from "../../store/actions/taskActions";
+import moment from "moment";
 
 interface ModalData {
   title: string;
@@ -41,11 +42,18 @@ const TaskCard = ({ item }: { item: any }) => {
       selectedItem: 0,
     });
   };
+  const itemCreatedAt = moment(item.created_at);
+  const currentTime = moment();
+
+  const duration = moment.duration(currentTime.diff(itemCreatedAt));
+  const daysElapsed = duration.asDays();
+  const hoursElapsed = duration.hours();
+  const minutesElapsed = duration.minutes();
 
   return (
     <Pressable
       style={[
-        commonStyles.p20,
+        commonStyles.px20,
         commonStyles.mx10,
         commonStyles.my10,
         commonStyles.br10,
@@ -53,6 +61,7 @@ const TaskCard = ({ item }: { item: any }) => {
         {
           elevation: 5,
           borderLeftWidth: 3,
+          paddingVertical: 14,
           borderLeftColor: getStatusColor(item.status),
         },
       ]}
@@ -63,7 +72,6 @@ const TaskCard = ({ item }: { item: any }) => {
           commonStyles.row,
           commonStyles.justifyBetween,
           commonStyles.alignCenter,
-          commonStyles.pb10,
         ]}
       >
         <Text
@@ -75,18 +83,7 @@ const TaskCard = ({ item }: { item: any }) => {
         >
           {item?.title}
         </Text>
-        <Pressable
-          style={[commonStyles.row, commonStyles.alignCenter]}
-          onPress={() => {
-            setModalData({
-              data: [],
-              handleSubmit: () => console.log("first"),
-              title: "Update Status",
-              selectedItem: 2,
-            });
-            setOpenModal(true);
-          }}
-        >
+        <Pressable style={[commonStyles.row, commonStyles.alignCenter]}>
           <View
             style={{
               width: 7,
@@ -107,7 +104,7 @@ const TaskCard = ({ item }: { item: any }) => {
           </Text>
         </Pressable>
       </View>
-      <View style={[commonStyles.pb10]}>
+      <View style={[commonStyles.p5]}>
         <Text
           style={[
             commonStyles.fs16,
@@ -130,7 +127,7 @@ const TaskCard = ({ item }: { item: any }) => {
             commonStyles.row,
             commonStyles.alignCenter,
             commonStyles.justifyBetween,
-            { width: "60%" },
+            { width: "80%" },
           ]}
           onPress={() => {
             setModalData({
@@ -158,12 +155,41 @@ const TaskCard = ({ item }: { item: any }) => {
               commonStyles.alignCenter,
             ]}
           >
-            <Text> {item?.user?.firstname} </Text>
-            <Text>{item?.user?.name}</Text>
+            <Text
+              style={[
+                commonStyles.fs14,
+                commonStyles.textRegular,
+                { color: "#64748B" },
+              ]}
+            >
+              {" "}
+              {item?.user?.firstname}{" "}
+            </Text>
+            <Text
+              style={[
+                commonStyles.fs14,
+                commonStyles.textRegular,
+                { color: "#64748B" },
+              ]}
+            >
+              {item?.user?.name}
+            </Text>
           </View>
           <MaterialIcons name="arrow-drop-down" size={24} color="black" />
         </Pressable>
-        <Text>dd</Text>
+        <Text
+          style={[
+            commonStyles.fs12,
+            commonStyles.textRegular,
+            { color: "#CBD5E1" },
+          ]}
+        >
+          {Math.floor(daysElapsed) !== 0
+            ? `${Math.floor(daysElapsed)}d`
+            : Math.floor(hoursElapsed) !== 0
+            ? `${Math.floor(hoursElapsed)}h`
+            : `${Math.floor(minutesElapsed)}m`}
+        </Text>
       </View>
 
       <SelectBottomSheet

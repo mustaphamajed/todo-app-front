@@ -27,7 +27,15 @@ const SelectCard = ({
       ]}
       onPress={onPress}
     >
-      <Text style={[commonStyles.fs16, { color: colors.black }]}>{label}</Text>
+      <Text
+        style={[
+          commonStyles.fs16,
+          commonStyles.textMedium,
+          { color: colors.black },
+        ]}
+      >
+        {label}
+      </Text>
     </Pressable>
   );
 };

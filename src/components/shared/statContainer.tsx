@@ -31,7 +31,7 @@ const StatContainer = ({
     {
       id: 4,
       label: "Average/h",
-      count: statistics?.average_completion_time || 0,
+      count: Math.floor(statistics?.average_completion_time) || 0,
     },
   ];
   return (
