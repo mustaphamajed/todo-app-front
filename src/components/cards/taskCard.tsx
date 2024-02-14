@@ -9,6 +9,7 @@ import { RootState } from "../../store/store";
 import {
   getStatusColor,
   mapUsersData,
+  showToast,
   useAppDispatch,
 } from "../../utils/helpers";
 import { assignTaskToUser } from "../../store/actions/taskActions";
@@ -24,7 +25,7 @@ const TaskCard = ({ item }: { item: any }) => {
   const dispatch = useAppDispatch();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openFormModal, setOpenFormModal] = useState<boolean>(false);
-  const { users } = useSelector((state: RootState) => state.userReducer);
+  const { users, user } = useSelector((state: RootState) => state.userReducer);
   const [modalData, setModalData] = useState<ModalData>({
     title: "",
     data: [],
@@ -50,6 +51,24 @@ const TaskCard = ({ item }: { item: any }) => {
   const hoursElapsed = duration.hours();
   const minutesElapsed = duration.minutes();
 
+  const handlePress = () => {
+    if (item.status === "active" || item?.user_id === user?.user?.id) {
+      setModalData({
+        data: mapUsersData(users),
+        handleSubmit: (selectedItem) => assignTask(selectedItem),
+        title: "Select User",
+        selectedItem: item?.user_id ? Number(item?.user_id) : 0,
+      });
+      setOpenModal(true);
+    } else {
+      showToast(
+        "error",
+        "Permission !",
+        "You dont have permission to perform this action !"
+      );
+    }
+  };
+
   return (
     <Pressable
       style={[
@@ -65,7 +84,15 @@ const TaskCard = ({ item }: { item: any }) => {
           borderLeftColor: getStatusColor(item.status),
         },
       ]}
-      onPress={() => setOpenFormModal(true)}
+      onPress={() => {
+        item.status === "active" || item?.user_id === user?.user?.id
+          ? setOpenFormModal(true)
+          : showToast(
+              "error",
+              "Permission !",
+              "You dont have permission to perform this action !"
+            );
+      }}
     >
       <View
         style={[
@@ -129,15 +156,7 @@ const TaskCard = ({ item }: { item: any }) => {
             commonStyles.justifyBetween,
             { width: "80%" },
           ]}
-          onPress={() => {
-            setModalData({
-              data: mapUsersData(users),
-              handleSubmit: (selectedItem) => assignTask(selectedItem),
-              title: "Select User",
-              selectedItem: item?.user_id ? Number(item?.user_id) : 0,
-            });
-            setOpenModal(true);
-          }}
+          onPress={handlePress}
         >
           <Text
             style={[
