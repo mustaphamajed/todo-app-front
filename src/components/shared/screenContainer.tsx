@@ -15,7 +15,7 @@ const ScreenContainer: React.FC<ScreenContainerProps> = ({
 }: ScreenContainerProps) => {
   return (
     <SafeAreaView
-      edges={["left", "right"]}
+      edges={["left", "right", "bottom"]}
       style={[
         commonStyles.flex1,
         { backgroundColor: colors.white },
