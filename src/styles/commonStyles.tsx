@@ -30,6 +30,15 @@ export default StyleSheet.create({
     overflow: "hidden",
   },
 
+  textBold: {
+    fontFamily: "Poppins-SemiBold",
+  },
+  textMedium: {
+    fontFamily: "Poppins-Medium",
+  },
+  textRegular: {
+    fontFamily: "Poppins-Regular",
+  },
   //background color
   bgTransparent: {
     backgroundColor: "rgba(0, 0, 0, 0.8)",
