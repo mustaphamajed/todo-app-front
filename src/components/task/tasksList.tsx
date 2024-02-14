@@ -13,6 +13,7 @@ import { useAppDispatch } from "../../utils/helpers";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { fetchTasks } from "../../store/actions/taskActions";
+import commonStyles from "../../styles/commonStyles";
 
 const TasksList = ({ tasks, sortBy }: { tasks: any; sortBy: string }) => {
   const dispatch = useAppDispatch();
@@ -26,6 +27,21 @@ const TasksList = ({ tasks, sortBy }: { tasks: any; sortBy: string }) => {
         keyExtractor={(item) => item.id}
         renderItem={({ item, index }) => {
           return <TaskCard item={item} />;
+        }}
+        ListEmptyComponent={() => {
+          return (
+            <View
+              style={[
+                commonStyles.flex1,
+                commonStyles.justifyCenter,
+                commonStyles.alignCenter,
+              ]}
+            >
+              <Text style={[commonStyles.fs18, commonStyles.textMedium]}>
+                No Tasks.
+              </Text>
+            </View>
+          );
         }}
         refreshControl={
           <RefreshControl
